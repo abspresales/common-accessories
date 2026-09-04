@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>常用配件速查表</title>
+<style>
+:root{
+  --e-out:cubic-bezier(.16,1,.3,1);
+  --e-spr:cubic-bezier(.34,1.56,.64,1);
+  --e-sm:cubic-bezier(.4,0,.2,1);
+  --navy-900:#1E3A5F;
+  --navy-800:#33415C;
+  --navy-700:#3E5A7E;
+  --navy-600:#5A6B82;
+  --navy-500:#8A97A8;
+  --orange-500:#E78131;
+  --orange-600:#D96C1F;
+  --orange-700:#B85A18;
+  --cream-50:#FDF8F2;
+  --cream-100:#FBEEDD;
+  --ink:#1F2B3A;
+  --ink-soft:#5A6B82;
+  --brand:var(--orange-500);
+  --accent:var(--orange-500);
+  --ring:0 0 0 3px rgba(231,129,49,.22);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+::selection{background:rgba(243,156,18,.22);color:inherit;}
+body{font-family:Arial,"Microsoft YaHei","微软雅黑",sans-serif;background:#F5F6F8;background-attachment:fixed;color:#33373d;font-size:13px;margin:0;padding:0;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+body>div[style*="linear-gradient"]{
+  position:relative;isolation:isolate;
+  background:linear-gradient(180deg,#EAF2FC,#DEEBFA)!important;text-align:left;
+  box-shadow:0 2px 14px rgba(150,80,20,.18);
+  border-top:none;min-height:123px;box-sizing:border-box;
+  animation:headIn .55s var(--e-out) backwards;
+  padding:20px 24px!important;
+}
+@keyframes headIn{from{opacity:0;transform:translateY(-10px);}to{opacity:1;transform:none;}}
+body>div[style*="linear-gradient"] h1{
+  position:relative;z-index:2;
+  font-size:22px!important;letter-spacing:1.5px;font-weight:800;
+  color:#1E3A5F!important;text-shadow:none;
+  margin:0 0 6px 0!important;
+  display:flex;align-items:center;gap:12px;text-align:left;
+}
+body>div[style*="linear-gradient"] p{position:relative;z-index:2;text-shadow:none;letter-spacing:.3px;text-align:left;}
+body>div[style*="linear-gradient"] p:first-of-type{font-size:13px!important;font-weight:700;opacity:1!important;color:#1E3A5F;margin:0 0 4px 0!important;}
+body>div[style*="linear-gradient"] p:last-of-type{color:#3A5A7A!important;opacity:1;line-height:1.7;margin:0!important;}
+*{scrollbar-width:thin;scrollbar-color:#cfd6e1 transparent;}
+::-webkit-scrollbar{width:9px;height:9px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:#cfd6e1;border-radius:99px;border:2px solid transparent;background-clip:padding-box;}
+::-webkit-scrollbar-thumb:hover{background:#a4b1c4;}
+.page{display:none;padding:20px 30px;}
+.page.active{display:block;}
+.sub-page{display:none;}
+.sub-page.active{display:block;}
+.filter-bar{background:#fff;padding:16px 16px;border-radius:14px;box-shadow:0 2px 8px rgba(16,42,80,0.06);margin-bottom:14px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;border:1px solid #eef2f7;}
+.filter-item{display:flex;align-items:center;gap:6px;flex:1 1 170px;min-width:170px;}
+.filter-item label{font-size:12px;color:#6b7a8f;font-weight:500;white-space:nowrap;margin-right:2px;background:#f4f7fb;padding:4px 9px;border-radius:6px;}
+.filter-item select{padding:8px 12px;border:1px solid #dbe3ee;border-radius:8px;font-size:13px;min-width:150px;background:#fff;cursor:pointer;transition:all 0.2s;}
+.count-info{font-size:13px;color:#1a56db;font-weight:600;margin-left:auto;background:#eff4fb;padding:7px 14px;border-radius:20px;flex-shrink:0;white-space:nowrap;border:1px solid #dde8f8;}
+.table-wrap{background:#fff;border-radius:14px;box-shadow:0 2px 8px rgba(16,42,80,0.06);overflow-x:auto;border:1px solid #eef2f7;}
+table{width:100%;border-collapse:collapse;font-size:13px;table-layout:auto;}
+th{background:#fff;color:#111827;padding:12px 14px;text-align:center;font-weight:700;white-space:nowrap;position:sticky;top:0;font-size:13px;border-bottom:2px solid #e5e7eb;}
+.th-zh{display:block;font-size:13px;color:#111827;font-weight:700;line-height:1.3;}
+.th-en{display:block;font-size:10px;color:#6b7280;font-weight:500;line-height:1.3;margin-top:2px;}
+td{padding:10px 14px;border-bottom:1px solid #f0f0f0;text-align:center;vertical-align:middle;white-space:nowrap;overflow:hidden;font-size:13px;}
+tr:hover{background:#f8fafc;}
+.col-desc{text-align:left;white-space:normal;line-height:1.6;min-width:200px;color:#333;}
+.col-applicable{text-align:left;white-space:normal;line-height:1.55;min-width:180px;color:#3a4657;}
+.col-freeze{color:var(--navy-800);font-weight:700;}
+.no-result{text-align:center;padding:40px;color:#4b5563;font-size:13px;}
+.btn{padding:9px 20px;border:none;border-radius:8px;font-size:13px;cursor:pointer;font-weight:500;transition:all 0.18s;}
+.btn-primary{background:#1a56db;color:#fff;}
+.btn-primary:hover{background:#1548b8;}
+.btn-green{background:#059669;color:#fff;}
+.btn-green:hover{background:#047857;}
+.btn-reset{background:#fff;color:#1a56db;border:1px solid #bfd3f2;padding:7px 12px;display:inline-flex;align-items:center;gap:5px;flex-shrink:0;white-space:nowrap;border-radius:8px;}
+.btn-reset:hover{background:#eff4fb;border-color:#1a56db;}
+.btn-export{background:#1a56db;color:#fff;border:1px solid #1a56db;padding:7px 12px;display:inline-flex;align-items:center;gap:5px;flex-shrink:0;white-space:nowrap;border-radius:8px;}
+.btn-export:hover{background:#1548b8;}
+.admin-header{background:#fff;padding:18px 24px;border-radius:10px;margin-bottom:16px;box-shadow:0 1px 3px rgba(0,0,0,0.08);display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+.admin-stats{font-size:13px;color:#555;}
+.admin-stats span{color:#1a73e8;font-weight:600;margin:0 4px;}
+.dirty-indicator{color:#dc3545;font-weight:600;font-size:13px;}
+.clean-indicator{color:#28a745;font-weight:600;font-size:13px;}
+.login-wrap{max-width:400px;margin:60px auto;background:#fff;padding:40px;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.1);text-align:center;}
+.login-wrap h3{margin-bottom:20px;color:#333;}
+.login-wrap input{width:100%;padding:10px;border:1px solid #d0d0d0;border-radius:4px;font-size:13px;margin-bottom:16px;}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);z-index:999;opacity:0;visibility:hidden;transition:all 0.3s ease;}
+.modal-overlay.active{opacity:1;visibility:visible;}
+.history-modal{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(0.96);width:min(680px,92vw);height:min(560px,75vh);background:#fff;border-radius:12px;z-index:1000;opacity:0;visibility:hidden;transition:all 0.35s cubic-bezier(0.34,1.56,0.64,1);display:flex;flex-direction:column;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.2);}
+.history-modal.active{opacity:1;visibility:visible;transform:translate(-50%,-50%) scale(1);}
+.modal-header{flex-shrink:0;padding:16px 24px;border-bottom:1px solid #e5e7eb;display:flex;align-items:center;justify-content:space-between;background:#fff;color:#111827;}
+.modal-header h3{font-size:13px;font-weight:600;display:flex;align-items:center;gap:8px;}
+.modal-header .modal-count{font-size:13px;opacity:1;font-weight:400;background:#f3f4f6;color:#6b7280;padding:2px 10px;border-radius:10px;}
+.modal-close{width:32px;height:32px;border-radius:6px;border:none;background:#f3f4f6;color:#6b7280;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;transition:all 0.2s;}
+.modal-close:hover{background:#e5e7eb;}
+.modal-body{flex:1;overflow-y:auto;padding:0;}
+.history-table{width:100%;border-collapse:collapse;font-size:13px;}
+.history-table th{background:#fff;color:#111827;padding:12px 14px;text-align:center;font-weight:700;white-space:nowrap;position:sticky;top:0;z-index:1;border-bottom:2px solid #e5e7eb;}
+.history-table td{padding:10px 14px;border-bottom:1px solid #f0f0f0;text-align:center;vertical-align:middle;font-size:13px;}
+.history-table tr:hover{background:#f8fafc;}
+.history-table .col-content{text-align:left;white-space:normal;max-width:600px;line-height:1.6;color:#333;}
+.admin-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);z-index:998;opacity:0;visibility:hidden;transition:all 0.3s ease;}
+.admin-modal-overlay.active{opacity:1;visibility:visible;}
+.admin-modal{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(0.96);width:min(680px,92vw);height:min(560px,75vh);background:#f0f2f5;border-radius:12px;z-index:999;opacity:0;visibility:hidden;transition:all 0.35s cubic-bezier(0.34,1.56,0.64,1);display:flex;flex-direction:column;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.3);}
+.admin-modal.active{opacity:1;visibility:visible;transform:translate(-50%,-50%) scale(1);}
+.admin-modal-header{flex-shrink:0;padding:14px 24px;background:#fff;color:#111827;border-bottom:1px solid #e5e7eb;display:flex;align-items:center;justify-content:space-between;}
+.admin-modal-close{width:32px;height:32px;border-radius:6px;border:none;background:#f3f4f6;color:#6b7280;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;transition:all 0.2s;}
+.admin-modal-close:hover{background:#e5e7eb;}
+.admin-modal-size{width:32px;height:32px;border-radius:6px;border:none;background:#f3f4f6;color:#6b7280;cursor:pointer;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;transition:all 0.2s;}
+.admin-modal-size:hover{background:#e5e7eb;}
+.admin-header-btns{display:flex;align-items:center;gap:6px;}
+.admin-modal-body{flex:1;overflow-y:auto;padding:20px;}
+@media(max-width:640px){
+  .admin-modal{width:100vw;height:100vh;border-radius:0;top:0;left:0;transform:translate(0,0) scale(1);}
+  .admin-modal.active{transform:translate(0,0) scale(1);}
+  .history-modal{width:100vw;height:100vh;border-radius:0;top:0;left:0;transform:translate(0,0) scale(1);}
+  .history-modal.active{transform:translate(0,0) scale(1);}
+}
+.search-bar{background:#fff;border-radius:14px;padding:12px 16px;margin-bottom:14px;box-shadow:0 2px 8px rgba(16,42,80,0.06);display:flex;align-items:center;gap:10px;border:1px solid #eef2f7;}
+.search-bar .search-icon{color:#96a2b3;}
+.search-bar input{flex:1;border:none;outline:none;font-size:14px;color:#333;background:transparent;}
+.search-bar .search-clear{display:none;width:24px;height:24px;border:none;background:#eef2f8;color:#5a6b82;border-radius:50%;cursor:pointer;font-size:12px;line-height:1;align-items:center;justify-content:center;}
+.search-bar .search-clear.show{display:flex;}
+.search-bar .search-tip{font-size:12px;color:#9aa8bc;white-space:nowrap;}
+.combobox{position:relative;width:100%;min-width:0;flex:1 1 110px;}
+.combobox-input{width:100%;padding:7px 30px 7px 10px;border:1px solid #d9d9d9;border-radius:6px;font-size:13px;background:#fff;cursor:pointer;transition:border-color 0.2s,box-shadow 0.2s;outline:none;-webkit-appearance:none;appearance:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.combobox-input:focus{border-color:#1a56db;box-shadow:none;cursor:text;}
+.combobox-arrow{position:absolute;right:12px;top:50%;transform:translateY(-50%);pointer-events:none;transition:transform 0.2s;display:flex;align-items:center;justify-content:center;width:16px;height:16px;}
+.combobox-arrow svg{width:14px;height:14px;display:block;}
+.combobox.open .combobox-arrow{transform:translateY(-50%) rotate(180deg);}
+.combobox-list{position:absolute;top:calc(100% + 4px);left:0;right:0;width:auto;min-width:100%;max-width:min(520px, calc(100vw - 32px));max-height:min(340px, 60vh);overflow-y:auto;background:#fff;border:1px solid #e5e7eb;border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,0.15);z-index:100;display:none;padding:4px 0;}
+.combobox.open .combobox-list{display:block;}
+.combobox-item{padding:8px 14px;font-size:13px;color:#374151;cursor:pointer;transition:background 0.12s;white-space:nowrap;}
+.combobox-item:hover{background:#eff6ff;color:#1a56db;}
+.combobox-item.selected{background:#dbeafe;color:#1a56db;font-weight:600;}
+.combobox-item.highlight{background:#eff6ff;}
+.combobox-empty{padding:12px 14px;font-size:13px;color:#4b5563;text-align:center;}
+.sap-copy{font-family:Consolas,Monaco,"Courier New",monospace;cursor:pointer;padding:3px 8px;border-radius:5px;transition:all 0.15s;display:inline-block;font-size:13px;}
+.sap-copy:hover{background:#dbeafe;color:#1a56db;}
+.sap-copy.copied{background:#059669;color:#fff;}
+.pagination{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;padding:14px 16px;background:#fff;border-radius:14px;margin-top:14px;box-shadow:0 1px 4px rgba(16,42,80,0.05);border:1px solid #eef2f7;}
+.page-info{font-size:13px;color:#6b7280;white-space:nowrap;}
+.page-controls{display:flex;align-items:center;gap:4px;flex-wrap:wrap;justify-content:center;}
+.page-btn{min-width:32px;height:32px;padding:0 10px;border:1px solid #d1d5db;background:#fff;color:#374151;border-radius:6px;cursor:pointer;font-size:13px;transition:all 0.15s;display:inline-flex;align-items:center;justify-content:center;}
+.page-btn:hover:not(:disabled):not(.active){background:#eff6ff;border-color:#1a56db;color:#1a56db;}
+.page-btn.active{background:#1a56db;border-color:#1a56db;color:#fff;font-weight:600;}
+.page-btn:disabled{opacity:0.4;cursor:not-allowed;}
+.page-nav{padding:0 12px;}
+.page-dots{padding:0 4px;color:#9ca3af;font-size:13px;}
+.modal-overlay,.admin-modal-overlay{background:rgba(14,42,74,.48);backdrop-filter:blur(8px) saturate(1.05);-webkit-backdrop-filter:blur(8px) saturate(1.05);}
+.history-modal,.admin-modal{border-radius:18px;border:1px solid #E1E8F1;box-shadow:0 30px 100px rgba(14,42,74,.40),0 6px 20px rgba(14,42,74,.16);}
+.modal-header,.admin-modal-header{background:linear-gradient(180deg,#FFFFFF,#F5F8FC)!important;color:#1E3A5F!important;border-bottom:3px solid #E1E8F1!important;}
+.modal-header h3,.admin-modal-header>span{color:#1E3A5F!important;font-weight:700;letter-spacing:.5px;}
+.modal-header .modal-count{background:var(--cream-100)!important;color:var(--orange-600)!important;font-weight:700;}
+.modal-close,.admin-modal-close{background:#EAF1F8;color:#1E3A5F;border:1px solid #C9D8EA;border-radius:8px;transition:all .18s var(--e-sm);}
+.modal-close:hover,.admin-modal-close:hover{background:var(--orange-500);color:#fff;border-color:var(--orange-500);transform:rotate(90deg);}
+.admin-modal-size{background:#EAF1F8;color:#1E3A5F;border:1px solid #C9D8EA;border-radius:8px;transition:all .18s var(--e-sm);}
+.admin-modal-size:hover{background:var(--orange-500);color:#fff;border-color:var(--orange-500);transform:scale(1.08);}
+.login-wrap{border:1px solid #E1E8F1;border-top:4px solid #E1E8F1;}
+.login-wrap h3{color:var(--navy-700)!important;font-weight:700;}
+.login-wrap input{border-radius:8px;border-color:#D7E0EC;transition:border-color .2s,box-shadow .2s;}
+.login-wrap input:focus{border-color:var(--orange-500);box-shadow:var(--ring);outline:none;}
+.admin-stats{color:var(--ink-soft);font-weight:500;}
+.admin-stats span{color:var(--orange-600)!important;font-weight:700;}
+.dirty-indicator{color:#C0392B;}
+.clean-indicator{color:#1E8E4E;}
+div[onclick="openHistoryModal()"]{background:linear-gradient(135deg,var(--orange-500),var(--orange-600))!important;box-shadow:0 6px 18px rgba(230,126,34,.45),0 0 0 4px rgba(243,156,18,.18)!important;transition:transform .28s var(--e-spr),box-shadow .28s var(--e-sm)!important;border:2px solid #fff;}
+div[onclick="openHistoryModal()"]:hover{background:linear-gradient(135deg,#FBAE2E,#ED8525)!important;box-shadow:0 10px 26px rgba(230,126,34,.55),0 0 0 8px rgba(243,156,18,.22)!important;}
+div[onclick="openAdminModal()"]{background:linear-gradient(135deg,#5A6B82,#414E63)!important;box-shadow:0 6px 18px rgba(65,78,99,.50),0 0 0 4px rgba(90,107,130,.20)!important;transition:transform .28s var(--e-spr),box-shadow .28s var(--e-sm)!important;border:2px solid #fff;}
+div[onclick="openAdminModal()"]:hover{background:linear-gradient(135deg,#6C7E96,#4E5C73)!important;box-shadow:0 10px 26px rgba(65,78,99,.60),0 0 0 8px rgba(90,107,130,.25)!important;}
+.no-result{color:#9AA8BC;letter-spacing:1px;font-weight:500;}
+#qTable th{background:#f0f7ff;color:#1e3a5f;}
+#qTable tbody tr:hover{background:#eef5ff;}
+#qTable tbody tr:nth-child(even){background:#F7FAFD;}
+#qTable td.col-desc{color:#24303F;font-size:13px;line-height:1.68;}
+@media(max-width:640px){
+  body>div[style*="linear-gradient"]{padding:14px 16px !important;}
+  body>div[style*="linear-gradient"] h1{font-size:19px !important;}
+  body>div[style*="linear-gradient"] p{font-size:12px !important;}
+  .filter-bar{padding:14px 16px;gap:10px 12px;align-items:stretch;flex-wrap:wrap;overflow-x:visible;}
+  .filter-item{flex:1 1 calc(50% - 6px);min-width:0;flex-direction:column;align-items:stretch;gap:4px;}
+  .filter-item label{font-size:13px;margin-right:0;margin-bottom:2px;}
+  .combobox-list{width:100%;min-width:0;max-width:none;max-height:260px;}
+  .combobox-item{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .filter-item select,.filter-item input{width:100%;min-width:0;padding:10px 12px;font-size:14px;min-height:40px;}
+  .btn-reset{flex:1 1 100%;justify-content:center;padding:12px 16px;min-height:44px;font-size:14px;order:10;}
+  .btn-export{flex:1 1 100%;justify-content:center;padding:12px 16px;min-height:44px;font-size:14px;order:10;}
+  .count-info{margin-left:0;flex:1 1 100%;text-align:center;padding:8px 14px;font-size:13px;order:11;}
+  table{font-size:12px;}
+  th{padding:9px 10px;font-size:12px;}
+  td{padding:8px 10px;font-size:12px;}
+  .col-desc{min-width:160px;font-size:12px;line-height:1.5;}
+  .col-applicable{min-width:150px;font-size:12px;line-height:1.45;}
+  .search-bar{flex-wrap:nowrap;}
+  .search-bar input{min-width:0;font-size:13px;}
+  .search-tip{display:none !important;}
+  .sap-copy{font-size:12px;}
+  .pagination{flex-direction:column;align-items:center;gap:8px;padding:12px;}
+  .page-info{font-size:12px;}
+  .page-btn{min-width:36px;height:36px;font-size:13px;}
+}
+/* ===== 首屏编排动画 ===== */
+.search-bar{animation:cardIn .55s var(--e-out) .05s backwards;}
+.filter-bar{animation:cardIn .55s var(--e-out) .12s backwards;}
+.table-wrap{animation:cardIn .55s var(--e-out) .19s backwards;}
+.pagination{animation:cardIn .55s var(--e-out) .26s backwards;}
+@keyframes cardIn{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:none;}}
+/* ===== 搜索栏 ===== */
+.search-bar{border-radius:14px;padding:14px 18px;}
+.search-bar .search-icon{color:var(--orange-600);}
+.search-bar input{border-radius:10px;background:#FAFCFE;border-color:#D7E0EC;color:var(--ink);transition:border-color .25s var(--e-sm),box-shadow .25s var(--e-sm),background .25s;font-weight:500;border:1px solid #D7E0EC;padding:10px 14px;}
+.search-bar input::placeholder{color:#9AA8BC;}
+.search-bar input:hover{border-color:#B9C8DE;}
+.search-bar input:focus{border-color:var(--orange-500);box-shadow:var(--ring);background:#fff;}
+.search-bar .search-clear{transition:all .25s var(--e-spr);background:#EEF2F8;color:var(--ink-soft);display:none;width:24px;height:24px;border:none;border-radius:50%;cursor:pointer;font-size:12px;line-height:1;align-items:center;justify-content:center;}
+.search-bar .search-clear.show{display:flex;}
+.search-bar .search-clear:hover{transform:rotate(90deg) scale(1.08);background:var(--orange-500);color:#fff;}
+.search-bar .search-tip{font-size:12px;color:#9AA8BC;white-space:nowrap;}
+/* ===== 下拉组件（对齐线材站橙渐变） ===== */
+.combobox{border-radius:9px;}
+.combobox-input{border-radius:9px;background:#FAFCFE;border-color:#D7E0EC;color:var(--ink);font-weight:500;transition:border-color .22s var(--e-sm),box-shadow .22s var(--e-sm),background .22s;}
+.combobox-input:hover{border-color:#B9C8DE;}
+.combobox-input:focus{border-color:var(--orange-500);box-shadow:var(--ring);background:#fff;}
+.combobox-input:disabled,.combobox.disabled .combobox-input{background:#F2F4F8;color:#A6B0BF;}
+.combobox-arrow svg{stroke:#8B98AD;}
+.combobox-list{border-radius:12px;border-color:#E0E7F1;box-shadow:0 6px 14px rgba(14,42,74,.07),0 18px 44px rgba(14,42,74,.18);animation:cbPop .22s var(--e-out);transform-origin:50% 0;}
+@keyframes cbPop{from{opacity:0;transform:translateY(-6px) scale(.98);}to{opacity:1;transform:none;}}
+.combobox-item{border-radius:7px;margin:1px 7px;transition:background .13s,color .13s,transform .16s var(--e-out);color:var(--ink);}
+.combobox-item:hover{transform:translateX(3px);}
+.combobox-item.selected{background:linear-gradient(135deg,#FDF4E3,#FCE7BD);color:var(--orange-700);font-weight:700;}
+.combobox-empty{color:#9AA8BC;}
+/* ===== 按钮：橙为主、深蓝为辅（对齐线材站） ===== */
+.btn{border-radius:9px;font-weight:600;letter-spacing:.3px;transition:transform .2s var(--e-spr),box-shadow .25s var(--e-sm),background .2s,filter .2s;}
+.btn:active{transform:translateY(0) scale(.965);}
+.btn-primary{background:linear-gradient(135deg,var(--orange-500),var(--orange-600));color:#fff;box-shadow:0 4px 12px rgba(230,126,34,.35);}
+.btn-primary:hover{background:linear-gradient(135deg,#FBAE2E,#ED8525);box-shadow:0 6px 18px rgba(230,126,34,.48);transform:translateY(-1px);}
+.btn-green{background:linear-gradient(135deg,#27AE60,#1E8E4E);color:#fff;box-shadow:0 4px 12px rgba(30,142,78,.35);}
+.btn-green:hover{background:linear-gradient(135deg,#2EC06B,#1F9954);box-shadow:0 6px 18px rgba(30,142,78,.48);transform:translateY(-1px);}
+.btn-secondary{background:linear-gradient(135deg,#7A8699,#5C6776);color:#fff;box-shadow:0 4px 12px rgba(92,103,118,.32);}
+.btn-secondary:hover{box-shadow:0 6px 18px rgba(92,103,118,.42);transform:translateY(-1px);}
+.btn-reset{background:#fff;color:var(--navy-700);border:1.5px solid #B8C8E0;border-radius:9px;transition:all .2s var(--e-sm);font-weight:600;}
+.btn-reset:hover{background:linear-gradient(135deg,var(--cream-50),var(--cream-100));border-color:var(--orange-500);color:var(--orange-700);transform:translateY(-1px);box-shadow:0 4px 12px rgba(243,156,18,.20);}
+.btn-reset:active{transform:translateY(0) scale(.965);}
+.btn-export{background:linear-gradient(135deg,var(--orange-500),var(--orange-600));color:#fff;border:1px solid var(--orange-600);border-radius:9px;box-shadow:0 4px 12px rgba(231,129,49,.35);transition:transform .2s var(--e-spr),box-shadow .25s var(--e-sm),background .2s;font-weight:600;}
+.btn-export:hover{background:linear-gradient(135deg,#F0954A,#E0701F);box-shadow:0 6px 18px rgba(231,129,49,.45);transform:translateY(-1px);}
+.btn-export:active{transform:translateY(0) scale(.965);}
+/* ===== 筛选标签 · 计数徽章 ===== */
+.filter-item label{background:#F4F7FB;border:1px solid #E1E8F1;border-radius:7px;letter-spacing:.3px;color:var(--navy-700);font-weight:600;}
+.count-info{background:linear-gradient(135deg,var(--cream-50),var(--cream-100));border:1px solid #F0DBA8;color:var(--orange-700);font-weight:700;font-variant-numeric:tabular-nums;}
+/* ===== 已选条件胶囊 ===== */
+.active-filters{background:#fff;padding:10px 18px;border-radius:10px;box-shadow:0 1px 4px rgba(16,42,80,0.05);margin-bottom:14px;display:none;align-items:center;gap:8px;flex-wrap:wrap;border:1px solid #eef2f7;}
+.active-filters.show{display:flex;animation:chipIn .32s var(--e-out) backwards;}
+.active-filters .af-lab{font-size:12px;color:#6b7280;font-weight:600;margin-right:2px;}
+@keyframes chipIn{from{opacity:0;transform:translateY(-5px);}to{opacity:1;transform:none;}}
+.filter-chip{background:linear-gradient(135deg,var(--cream-50),var(--cream-100));border:1px solid #F0DBA8;border-radius:999px;color:var(--orange-700);box-shadow:0 1px 4px rgba(230,126,34,.10);transition:transform .18s var(--e-spr),box-shadow .18s,background .18s;font-weight:600;display:inline-flex;align-items:center;gap:6px;padding:5px 12px;font-size:12px;}
+.filter-chip:hover{transform:translateY(-1px);box-shadow:0 3px 10px rgba(230,126,34,.20);background:#fff;}
+.filter-chip .chip-x{background:#F0DBA8;color:var(--orange-700);transition:all .18s var(--e-spr);width:16px;height:16px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:12px;line-height:1;cursor:pointer;}
+.filter-chip .chip-x:hover{background:var(--orange-600);color:#fff;transform:rotate(90deg);}
+.af-clear-all{border-radius:999px;transition:all .18s;color:#C0392B;font-size:12px;cursor:pointer;margin-left:auto;white-space:nowrap;padding:3px 10px;}
+.af-clear-all:hover{background:#FDEBEC;}
+/* ===== 表格：浅蓝表头 + 深色文字 ===== */
+#qTable{border-radius:8px;overflow:hidden;}
+#qTable thead th{background:linear-gradient(180deg,#EAF2FC 0%,#DEEBFA 100%)!important;color:#1E3A5F!important;letter-spacing:.5px;font-weight:700;border-bottom:none!important;}
+#qTable thead th.col-freeze{background:linear-gradient(180deg,#D8E8F9,#C9DFF6)!important;box-shadow:inset -1px 0 0 rgba(30,58,95,.10);}
+.th-en{color:#4A5B72!important;letter-spacing:.6px;opacity:1;font-weight:600;}
+#qTable td{border-bottom:1px solid #ECF0F6;color:var(--ink);font-weight:500;}
+#qTable tbody tr{transition:background .16s var(--e-sm);}
+#qTable tbody tr:nth-child(even){background:#FAFCFE;}
+#qTable tbody tr:hover,#qTable tbody tr:nth-child(even):hover{background:#FDF4E3;}
+#qTable tbody tr:hover td.col-freeze{background:#FCE7BD;}
+#qTable td.col-freeze{background:#F4F7FB;border-right:1px solid #D7E0EC;}
+#qTable tbody tr:nth-child(even) td.col-freeze{background:#F9FBFD;}
+#qBody tr{animation:rowIn .34s var(--e-out) backwards;}
+#qBody tr:nth-child(2){animation-delay:.03s;}
+#qBody tr:nth-child(3){animation-delay:.06s;}
+#qBody tr:nth-child(4){animation-delay:.09s;}
+#qBody tr:nth-child(5){animation-delay:.12s;}
+#qBody tr:nth-child(6){animation-delay:.15s;}
+#qBody tr:nth-child(7){animation-delay:.18s;}
+#qBody tr:nth-child(8){animation-delay:.21s;}
+#qBody tr:nth-child(9){animation-delay:.24s;}
+#qBody tr:nth-child(10){animation-delay:.27s;}
+@keyframes rowIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+#qTable td.col-desc{color:#24303F;font-size:13px;line-height:1.68;}
+</style></head>
+<body>
+
+<div style="background:linear-gradient(135deg,#1a3a5c 0%,#2d5f8a 100%);padding:18px 24px;color:#fff;">
+    <h1 style="font-size:24px;font-weight:700;margin:0 0 6px 0;">常用配件速查表</h1>
+    <p style="font-size:13px;margin:0 0 4px 0;opacity:0.85;">LED 显示屏常用配件（航空箱 / 吊梁 / 结构配件 / 地砖屏配件）快速查询工具</p>
+    <p style="font-size:13px;margin:0;opacity:0.92;">支持按产品系列 / 物料类别筛选，全局搜索即可快速定位所需配件料号、描述与备注（适用系列 / 材质合数 / 重量）。</p>
+</div>
+
+<div id="pageQuery" class="page active">
+    <div id="qMain" class="sub-page active">
+        <div class="search-bar">
+            <span class="search-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></span>
+            <input type="text" id="qGlobalSearch" placeholder="全局搜索：产品系列 / 物料类别 / 料号 / 物料描述 / 备注（支持空格分词，如：Rental 航空箱 NT 塑胶）" autocomplete="off">
+            <button class="search-clear" id="qSearchClear" onclick="clearGlobalSearch()" title="清除搜索">✕</button>
+            <span class="search-tip" id="qSearchTip"></span>
+        </div>
+        <div class="filter-bar">
+            <div class="filter-item"><label>产品系列</label><div class="combobox" id="cb-qProduct" data-default="全部系列"><input type="text" class="combobox-input" value="全部系列" autocomplete="off"><span class="combobox-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span><div class="combobox-list"></div></div></div>
+            <div class="filter-item"><label>物料类别</label><div class="combobox" id="cb-qType" data-default="全部类别"><input type="text" class="combobox-input" value="全部类别" autocomplete="off"><span class="combobox-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span><div class="combobox-list"></div></div></div>
+            <button class="btn btn-reset" type="button" onclick="resetQueryFilter()">↺ 重置筛选</button>
+            <button class="btn btn-export" type="button" onclick="exportExcel()">⬇ 导出Excel</button>
+            <span class="count-info" id="qCount"></span>
+        </div>
+        <div class="active-filters" id="activeFilters"><span class="af-lab">已选条件</span></div>
+        <div class="table-wrap">
+            <table id="qTable">
+                <thead><tr id="qHead"></tr></thead>
+                <tbody id="qBody"></tbody>
+            </table>
+        </div>
+        <div class="pagination" id="pagination"></div>
+    </div>
+</div>
+
+<!-- 后台维护浮窗 -->
+<div class="admin-modal-overlay" id="adminOverlay" onclick="closeAdminModal()"></div>
+<div class="admin-modal" id="adminModal" role="dialog" aria-modal="true">
+  <div class="admin-modal-header">
+    <span style="font-size:13px;font-weight:600;">⚙ 后台维护</span>
+    <div class="admin-header-btns">
+      <button class="admin-modal-size" onclick="shrinkAdminModal()" aria-label="缩小">−</button>
+      <button class="admin-modal-size" onclick="expandAdminModal()" aria-label="放大">□</button>
+      <button class="admin-modal-close" onclick="closeAdminModal()" aria-label="关闭">✕</button>
+    </div>
+  </div>
+  <div class="admin-modal-body">
+    <div id="adminLogin" class="login-wrap" style="box-shadow:none;margin:40px auto;">
+        <h3>后台维护登录</h3>
+        <input type="password" id="adminPwd" placeholder="请输入密码" onkeydown="if(event.key==='Enter')adminLogin()">
+        <button class="btn" onclick="adminLogin()" style="width:100%;background:#fff;color:#374151;border:1px solid #d1d5db;">登录</button>
+    </div>
+    <div id="adminContent" style="display:none;">
+        <div class="admin-header">
+            <button class="btn btn-primary" onclick="document.getElementById('excelFileInput').click()">📥 导入Excel覆盖更新</button>
+            <input type="file" id="excelFileInput" accept=".xlsx,.xls" style="display:none;" onchange="handleExcelImport(event)">
+            <button class="btn btn-green" onclick="saveToLocal()">💾 保存到浏览器</button>
+            <button class="btn" onclick="exportDataJson()" style="background:linear-gradient(135deg,#E78131,#D96C1F);color:#fff;box-shadow:0 4px 12px rgba(231,129,49,.30);">📤 导出JSON</button>
+            <span id="dirtyIndicator" class="clean-indicator">✓ 已保存</span>
+            <div class="admin-stats">配件<span id="statRaw">0</span>条 | 履历<span id="statHistory">0</span>条 | 类别<span id="statType">0</span>个</div>
+            <button onclick="adminLogout()" style="margin-left:auto;background:linear-gradient(135deg,#E5484D,#C72A2F);color:#fff;border:none;padding:9px 20px;border-radius:9px;cursor:pointer;font-size:13px;font-weight:600;box-shadow:0 4px 12px rgba(199,42,47,.30);">退出登录</button>
+        </div>
+        <div class="table-wrap" id="adminTableWrap">
+            <table>
+                <thead><tr id="aRawHead"></tr></thead>
+                <tbody id="aRawBody"></tbody>
+            </table>
+        </div>
+        <div style="position:sticky;bottom:0;display:flex;align-items:center;justify-content:center;gap:16px;padding:10px 20px;background:#fff;border-top:1px solid #e5e7eb;z-index:10;">
+            <button onclick="scrollAdminTable(-200)" style="width:36px;height:36px;border-radius:6px;border:1px solid #d1d5db;background:#fff;color:#6b7280;cursor:pointer;font-size:16px;font-weight:700;display:flex;align-items:center;justify-content:center;">‹</button>
+            <span style="font-size:13px;color:#4b5563;">左右滑动查看更多列</span>
+            <button onclick="scrollAdminTable(200)" style="width:36px;height:36px;border-radius:6px;border:1px solid #d1d5db;background:#fff;color:#6b7280;cursor:pointer;font-size:16px;font-weight:700;display:flex;align-items:center;justify-content:center;">›</button>
+        </div>
+    </div>
+  </div>
+</div>
+
+<!-- 更新履历浮窗 -->
+<div class="modal-overlay" id="historyOverlay" onclick="closeHistoryModal()"></div>
+<div class="history-modal" id="historyModal" role="dialog" aria-modal="true">
+  <div class="modal-header">
+    <h3>📋 更新履历 <span class="modal-count" id="historyModalCount">共 0 条</span></h3>
+    <button class="modal-close" onclick="closeHistoryModal()" aria-label="关闭">✕</button>
+  </div>
+  <div class="modal-body">
+    <table class="history-table">
+      <thead><tr><th style="width:120px;">日期</th><th>修订内容</th><th style="width:100px;">编辑人</th></tr></thead>
+      <tbody id="historyTableBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<div onclick="openHistoryModal()" style="position:fixed;bottom:60px;right:18px;width:26px;height:26px;background:#597a9b;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;z-index:1000;">
+  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></svg>
+</div>
+<div onclick="openAdminModal()" style="position:fixed;bottom:24px;right:18px;width:26px;height:26px;background:#193a5b;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;z-index:1000;">
+  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+</div>
+<script>
+const DEFAULT_DATA={rawData:[],historyData:[]};
+const STORAGE_KEY='parts_accessories_data_v1';
+const RAW_FIELDS=['产品系列','物料类别','料号','物料描述','备注1','备注2','备注3'];
+const FIELD_EN={'产品系列':'Product Line','物料类别':'Type','料号':'SAP Number','物料描述':'Material Description','备注1':'Remark','备注2':'Remark','备注3':'Remark'};
+// 备注1/2/3 对应的业务含义（用于导出说明、高亮列判断）
+const REMARK_MEANING={'备注1':'适用系列','备注2':'材质合数','备注3':'重量'};
+const PART_TYPES=['航空箱','吊梁','结构配件','地砖屏配件'];
+let rawData=[];
+let historyData=[];
+let currentPage=1;
+const PAGE_SIZE=10;
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function unique(arr){return [...new Set(arr.filter(Boolean))];}
+function fieldTh(f,extra){return '<th class="'+((extra||'').trim()||'qth')+'"><span class="th-zh">'+esc(f)+'</span><span class="th-en">'+esc(FIELD_EN[f]||'')+'</span></th>';}
+function getGlobalKeyword(){const el=document.getElementById('qGlobalSearch');return el?el.value.trim():'';}
+function getGlobalKeywords(){const kw=getGlobalKeyword();if(!kw)return [];return kw.split(/[\s,]+/).map(x=>x.trim()).filter(Boolean);}
+function rowMatchesKeyword(row,keywords){
+  if(!keywords.length)return true;
+  const fields=['产品系列','料号','物料描述','物料类别','备注1','备注2','备注3'];
+  const text=fields.map(f=>String(row[f]||'')).join(' ').toLowerCase();
+  return keywords.every(k=>text.includes(k.toLowerCase()));
+}
+function highlightWord(text,keywords){
+  if(!keywords.length)return text;
+  let t=String(text||'');
+  keywords.forEach(k=>{
+    if(!k)return;
+    const re=new RegExp('('+k.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi');
+    t=t.replace(re,'<mark class="qmark">$1</mark>');
+  });
+  return t;
+}
+function getQueryFiltered(){
+  let result=rawData;
+  const p=getComboboxValue('qProduct');
+  if(p&&p!=='全部系列')result=result.filter(r=>(String(r['产品系列']||'').trim())===p.trim());
+  const t=getComboboxValue('qType');
+  if(t&&t!=='全部类别')result=result.filter(r=>(String(r['物料类别']||'').trim())===t.trim());
+  const keywords=getGlobalKeywords();
+  if(keywords.length)result=result.filter(r=>rowMatchesKeyword(r,keywords));
+  return result;
+}
+function renderQueryTable(){
+  const data=getQueryFiltered();
+  const totalPages=Math.max(1,Math.ceil(data.length/PAGE_SIZE));
+  if(currentPage>totalPages)currentPage=totalPages;
+  if(currentPage<1)currentPage=1;
+  document.getElementById('qCount').textContent='共找到 '+data.length+' 条匹配数据';
+  const keywords=getGlobalKeywords();
+  document.getElementById('qHead').innerHTML=RAW_FIELDS.map((f,i)=>fieldTh(f,i===0?'col-freeze':'')).join('');
+  const body=document.getElementById('qBody');
+  if(data.length===0){body.innerHTML='<tr><td colspan="'+RAW_FIELDS.length+'" class="no-result">未找到匹配数据</td></tr>';renderPagination(0,1);renderActiveFilters();return;}
+  const start=(currentPage-1)*PAGE_SIZE;
+  const pageData=data.slice(start,start+PAGE_SIZE);
+  body.innerHTML=pageData.map(row=>'<tr>'+RAW_FIELDS.map((f,i)=>{
+    let raw=String(row[f]||'');
+    const val=esc(raw);
+    const hl=(keywords.length&&(f==='物料描述'||f==='备注1'||f==='备注2'||f==='备注3'||f==='料号'||f==='物料类别'||f==='产品系列'))?highlightWord(raw,keywords):val;
+    let cls='';
+    if(i===0)cls='col-freeze';
+    else if(f==='物料描述')cls='col-desc';
+    else if(f==='备注1')cls='col-applicable';
+    if(f==='料号')return '<td class="'+cls+'"><span class="sap-copy" onclick="copySap(this)" title="点击复制">'+val+'</span></td>';
+    return '<td class="'+cls+'">'+hl+'</td>';
+  }).join('')+'</tr>').join('');
+  renderPagination(data.length,totalPages);
+  renderActiveFilters();
+  updateSearchClear();
+}
+function renderPagination(total,totalPages){
+  const el=document.getElementById('pagination');
+  if(!el)return;
+  if(total===0){el.innerHTML='';return;}
+  const start=(currentPage-1)*PAGE_SIZE+1;
+  const end=Math.min(currentPage*PAGE_SIZE,total);
+  let pages='';
+  const maxShow=7;
+  let pStart=Math.max(1,currentPage-3);
+  let pEnd=Math.min(totalPages,pStart+maxShow-1);
+  pStart=Math.max(1,pEnd-maxShow+1);
+  if(pStart>1){pages+='<button class="page-btn" onclick="goToPage(1)">1</button>';if(pStart>2)pages+='<span class="page-dots">...</span>';}
+  for(let i=pStart;i<=pEnd;i++){pages+='<button class="page-btn'+(i===currentPage?' active':'')+'" onclick="goToPage('+i+')">'+i+'</button>';}
+  if(pEnd<totalPages){if(pEnd<totalPages-1)pages+='<span class="page-dots">...</span>';pages+='<button class="page-btn" onclick="goToPage('+totalPages+')">'+totalPages+'</button>';}
+  el.innerHTML='<div class="page-info">显示 '+start+'-'+end+' 条，共 '+total+' 条</div><div class="page-controls"><button class="page-btn page-nav" onclick="prevPage()"'+(currentPage<=1?' disabled':'')+'>‹ 上一页</button>'+pages+'<button class="page-btn page-nav" onclick="nextPage()"'+(currentPage>=totalPages?' disabled':'')+'>下一页 ›</button></div><div class="page-info">第 '+currentPage+' / '+totalPages+' 页</div>';
+}
+function goToPage(p){currentPage=p;renderQueryTable();window.scrollTo({top:document.querySelector('.table-wrap').offsetTop-20,behavior:'smooth'});}
+function prevPage(){if(currentPage>1){currentPage--;renderQueryTable();window.scrollTo({top:document.querySelector('.table-wrap').offsetTop-20,behavior:'smooth'});}}
+function nextPage(){const total=getQueryFiltered().length;const tp=Math.max(1,Math.ceil(total/PAGE_SIZE));if(currentPage<tp){currentPage++;renderQueryTable();window.scrollTo({top:document.querySelector('.table-wrap').offsetTop-20,behavior:'smooth'});}}
+function onQueryFilter(){currentPage=1;renderActiveFilters();renderQueryTable();}
+function resetQueryFilter(){clearCombobox('qProduct');clearCombobox('qType');currentPage=1;renderActiveFilters();renderQueryTable();}
+function renderActiveFilters(){
+  const cont=document.getElementById('activeFilters');
+  if(!cont)return;
+  cont.innerHTML='';
+  const items=[];
+  const searchKw=getGlobalKeyword();
+  if(searchKw)items.push({key:'_search',label:'搜索:'+searchKw});
+  const pv=getComboboxValue('qProduct');
+  if(pv&&pv!=='全部系列')items.push({key:'qProduct',label:'系列:'+pv});
+  const v=getComboboxValue('qType');
+  if(v&&v!=='全部类别')items.push({key:'qType',label:'类别:'+v});
+  if(items.length===0){cont.classList.remove('show');return;}
+  cont.classList.add('show');
+  const lab=document.createElement('span');lab.className='af-lab';lab.textContent='已选条件';cont.appendChild(lab);
+  items.forEach(it=>{
+    const chip=document.createElement('div');chip.className='filter-chip';
+    chip.innerHTML='<span>'+esc(it.label)+'</span><span class="chip-x" title="移除" data-key="'+it.key+'">✕</span>';
+    cont.appendChild(chip);
+  });
+  if(items.length>1){
+    const clear=document.createElement('span');clear.className='af-clear-all';clear.textContent='全部清除';
+    clear.onclick=function(){clearCombobox('qProduct');clearCombobox('qType');clearGlobalSearch(true);currentPage=1;renderActiveFilters();renderQueryTable();};cont.appendChild(clear);
+  }
+  cont.querySelectorAll('.chip-x').forEach(x=>{
+    const key=x.getAttribute('data-key');
+    x.onclick=function(){if(key==='_search'){clearGlobalSearch();return;}clearCombobox(key);currentPage=1;renderActiveFilters();renderQueryTable();};
+  });
+}
+function updateSearchClear(){
+  const el=document.getElementById('qSearchClear');
+  const input=document.getElementById('qGlobalSearch');
+  if(!el||!input)return;
+  const has=input.value.trim().length>0;
+  el.classList.toggle('show',has);
+}
+function clearGlobalSearch(skipRender){
+  const input=document.getElementById('qGlobalSearch');
+  if(input)input.value='';
+  updateSearchClear();
+  currentPage=1;
+  if(!skipRender){renderActiveFilters();renderQueryTable();}
+}
+function bindGlobalSearch(){
+  const input=document.getElementById('qGlobalSearch');
+  if(!input)return;
+  let debounce=null;
+  input.addEventListener('input',()=>{
+    clearTimeout(debounce);
+    debounce=setTimeout(()=>{currentPage=1;updateSearchClear();renderActiveFilters();renderQueryTable();},150);
+  });
+  input.addEventListener('keydown',(e)=>{if(e.key==='Enter'){e.preventDefault();currentPage=1;renderActiveFilters();renderQueryTable();}});
+}
+function initCombobox(id,options){
+  const cb=document.getElementById('cb-'+id);
+  if(!cb)return;
+  const input=cb.querySelector('.combobox-input');
+  const list=cb.querySelector('.combobox-list');
+  const def=cb.getAttribute('data-default')||'';
+  if(def&&!options.includes(def)){options=[def,...options];}
+  function renderList(filter){
+    const kw=(filter||'').trim().toLowerCase();
+    const filtered=(kw&&kw!==def.toLowerCase())?options.filter(o=>String(o).toLowerCase().includes(kw)):options;
+    if(filtered.length===0){list.innerHTML='<div class="combobox-empty">无匹配选项</div>';return;}
+    list.innerHTML=filtered.map(o=>'<div class="combobox-item'+(input.value===o?' selected':'')+'" data-value="'+esc(o)+'">'+esc(o)+'</div>').join('');
+  }
+  function open(){if(cb.classList.contains('disabled'))return;closeAllCombobox();cb.classList.add('open');renderList(input.value);list.scrollTop=0;fitListWidth();}
+  function fitListWidth(){
+    requestAnimationFrame(function(){
+      if(window.innerWidth<=640){list.style.width='100%';list.style.maxWidth='none';list.style.left='0';list.style.right='0';return;}
+      const inputW=input.getBoundingClientRect().width;
+      const canvas=document.createElement('canvas');const ctx=canvas.getContext('2d');
+      ctx.font=window.getComputedStyle(list.querySelector('.combobox-item')||list).fontWeight+' 13px '+getComputedStyle(document.body).fontFamily;
+      const ITEM_PADDING=28;let widest=inputW;
+      Array.from(list.querySelectorAll('.combobox-item')).forEach(function(it){const w=ctx.measureText(it.textContent||'').width+ITEM_PADDING;if(w>widest)widest=w;});
+      widest=Math.min(Math.ceil(widest)+2,520);
+      list.style.width=widest+'px';list.style.maxWidth='';list.style.left='';list.style.right='';
+      const r=list.getBoundingClientRect();const vw=window.innerWidth||document.documentElement.clientWidth;
+      if(r.right>vw-8){list.style.left='auto';list.style.right='0';}else{list.style.left='0';list.style.right='auto';}
+    });
+  }
+  function close(){cb.classList.remove('open');}
+  function select(value){input.value=value;close();onQueryFilter();}
+  input.addEventListener('focus',open);
+  input.addEventListener('click',open);
+  input.addEventListener('input',()=>{open();renderList(input.value);});
+  input.addEventListener('keydown',(e)=>{
+    const items=list.querySelectorAll('.combobox-item');
+    let hi=parseInt(list.dataset.hi||'-1');
+    if(e.key==='ArrowDown'){e.preventDefault();if(!cb.classList.contains('open')){open();return;}hi=Math.min(hi+1,items.length-1);list.dataset.hi=hi;items.forEach((it,i)=>it.classList.toggle('highlight',i===hi));if(items[hi])items[hi].scrollIntoView({block:'nearest'});}
+    else if(e.key==='ArrowUp'){e.preventDefault();hi=Math.max(hi-1,0);list.dataset.hi=hi;items.forEach((it,i)=>it.classList.toggle('highlight',i===hi));if(items[hi])items[hi].scrollIntoView({block:'nearest'});}
+    else if(e.key==='Enter'){e.preventDefault();if(hi>=0&&items[hi])select(items[hi].dataset.value);else if(items.length===1)select(items[0].dataset.value);else close();}
+    else if(e.key==='Escape'){close();}
+  });
+  list.addEventListener('click',(e)=>{const item=e.target.closest('.combobox-item');if(item)select(item.dataset.value);});
+}
+function closeAllCombobox(){document.querySelectorAll('.combobox.open').forEach(cb=>cb.classList.remove('open'));}
+document.addEventListener('click',(e)=>{if(!e.target.closest('.combobox'))closeAllCombobox();});
+function getComboboxValue(id){const cb=document.getElementById('cb-'+id);return cb?cb.querySelector('.combobox-input').value.trim():'';}
+function clearCombobox(id){const cb=document.getElementById('cb-'+id);if(cb){const def=cb.getAttribute('data-default')||'';cb.querySelector('.combobox-input').value=def;}}
+function copySap(el){
+  const sap=el.textContent.trim();if(!sap)return;
+  const done=()=>{el.classList.add('copied');setTimeout(()=>el.classList.remove('copied'),1200);};
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(sap).then(done).catch(()=>fallbackCopy(sap,done));}
+  else fallbackCopy(sap,done);
+}
+function fallbackCopy(text,cb){
+  const ta=document.createElement('textarea');ta.value=text;ta.style.position='fixed';ta.style.opacity='0';
+  document.body.appendChild(ta);ta.select();
+  try{document.execCommand('copy');cb&&cb();}catch(e){}
+  document.body.removeChild(ta);
+}
+function buildExportName(){
+  const p=getComboboxValue('qProduct');
+  const t=getComboboxValue('qType');
+  const clean=v=>String(v||'').replace(/[\\\/:*?"<>|]+/g,'_').replace(/^[\s.]+|[\s.]+$/g,'').replace(/\s+/g,'_');
+  const pC=clean((p&&p!=='全部系列')?p:'');
+  const tC=clean((t&&t!=='全部类别')?t:'');
+  const label=tC?tC:'全部';
+  const pre=pC?(pC+'_'):'';
+  return '配件数据_'+pre+label+'_'+new Date().toISOString().slice(0,10)+'.xls';
+}
+function exportExcel(){
+  const data=getQueryFiltered();
+  if(data.length===0){alert('没有可导出的数据');return;}
+  const headers=RAW_FIELDS;
+  const FAMILY='font-family:微软雅黑,Microsoft YaHei,Arial,sans-serif;';
+  const FONT_TH=FAMILY+'font-size:11pt;';
+  const FONT_TD=FAMILY+'font-size:10pt;';
+  const alignOf=h=>(h==='物料描述'||h==='备注1')?'left':'center';
+  const thLabel=h=>h+(REMARK_MEANING[h]?'('+REMARK_MEANING[h]+')':'');
+  let html='<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">';
+  html+='<head><meta charset="UTF-8"><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>配件数据</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body>';
+  html+='<table border="1"><tr>'+headers.map(h=>'<th style="background:#f0f7ff;color:#1e3a5f;font-weight:bold;padding:8px;'+FONT_TH+'text-align:'+(alignOf(h))+';">'+thLabel(h)+'<br>'+(FIELD_EN[h]||'')+'</th>').join('')+'</tr>';
+  data.forEach(row=>{html+='<tr>'+headers.map(h=>'<td style="padding:6px;border:1px solid #ddd;'+FONT_TD+'text-align:'+(alignOf(h))+';">'+String(row[h]||'').replace(/</g,'&lt;').replace(/>/g,'&gt;')+'</td>').join('')+'</tr>';});
+  html+='</table></body></html>';
+  const blob=new Blob(['\ufeff'+html],{type:'application/vnd.ms-excel'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');a.href=url;a.download=buildExportName();
+  document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
+}
+function openAdminModal(){
+  document.getElementById('adminOverlay').classList.add('active');
+  document.getElementById('adminModal').classList.add('active');
+  document.body.style.overflow='hidden';
+  document.getElementById('adminPwd').value='';
+  document.getElementById('adminLogin').style.display='block';
+  document.getElementById('adminContent').style.display='none';
+}
+function closeAdminModal(){
+  document.getElementById('adminOverlay').classList.remove('active');
+  document.getElementById('adminModal').classList.remove('active');
+  document.body.style.overflow='';
+  const m=document.getElementById('adminModal');m.style.width='';m.style.height='';
+}
+function shrinkAdminModal(){const m=document.getElementById('adminModal');m.style.width='';m.style.height='';m.style.top='';m.style.left='';m.style.transform='';m.style.borderRadius='';}
+function expandAdminModal(){const m=document.getElementById('adminModal');m.style.width='100vw';m.style.height='100vh';m.style.top='0';m.style.left='0';m.style.transform='none';m.style.borderRadius='0';}
+function scrollAdminTable(delta){const wrap=document.getElementById('adminTableWrap');if(wrap){wrap.scrollLeft+=delta;}}
+function adminLogin(){
+  const pwd=document.getElementById('adminPwd').value;
+  if(pwd==='123321'){document.getElementById('adminLogin').style.display='none';document.getElementById('adminContent').style.display='block';renderAdminRaw();updateAdminStats();}
+  else alert('密码错误');
+}
+function adminLogout(){document.getElementById('adminContent').style.display='none';document.getElementById('adminLogin').style.display='block';document.getElementById('adminPwd').value='';}
+function renderAdminRaw(){
+  document.getElementById('aRawHead').innerHTML=RAW_FIELDS.map(f=>fieldTh(f)).join('');
+  const body=document.getElementById('aRawBody');
+  if(rawData.length===0){body.innerHTML='<tr><td colspan="'+RAW_FIELDS.length+'" class="no-result">暂无数据，请导入Excel</td></tr>';return;}
+  body.innerHTML=rawData.map(row=>'<tr>'+RAW_FIELDS.map(f=>{
+    const val=esc(row[f]||'');
+    if(f==='物料描述'||f==='备注1')return '<td class="col-desc">'+val+'</td>';
+    return '<td>'+val+'</td>';
+  }).join('')+'</tr>').join('');
+}
+function updateAdminStats(){
+  document.getElementById('statRaw').textContent=rawData.length;
+  document.getElementById('statHistory').textContent=historyData.length;
+  document.getElementById('statType').textContent=unique(rawData.map(d=>d['物料类别'])).length;
+}
+let isDirty=false;
+function setDirty(){isDirty=true;document.getElementById('dirtyIndicator').className='dirty-indicator';document.getElementById('dirtyIndicator').textContent='⚠ 有未保存的修改';}
+function clearDirty(){isDirty=false;document.getElementById('dirtyIndicator').className='clean-indicator';document.getElementById('dirtyIndicator').textContent='✓ 已保存';}
+function saveToLocal(){
+  try{localStorage.setItem(STORAGE_KEY,JSON.stringify({rawData:rawData,historyData:historyData}));clearDirty();alert('保存成功！共'+rawData.length+'条配件，'+historyData.length+'条履历。');}
+  catch(e){alert('保存失败：'+e.message);}
+}
+function exportDataJson(){
+  try{
+    localStorage.setItem(STORAGE_KEY,JSON.stringify({rawData:rawData,historyData:historyData}));clearDirty();
+    const data={rawData:rawData,historyData:historyData};
+    const json=JSON.stringify(data,null,2);
+    const blob=new Blob([json],{type:'application/json'});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');a.href=url;a.download='common-accessories.json';
+    document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
+    alert('✅ 已导出 common-accessories.json（'+data.rawData.length+' 条配件）\n\n请把下载的 common-accessories.json 上传到 GitHub 仓库（替换根目录的 common-accessories.json），线上页面即会更新。');
+  }catch(e){alert('导出失败：'+e.message);}
+}
+function autoLoadLocalStorage(){
+  try{
+    const saved=localStorage.getItem(STORAGE_KEY);
+    if(!saved)return false;
+    const data=JSON.parse(saved);
+    if(data.rawData&&Array.isArray(data.rawData)&&data.rawData.length>0){
+      const first=data.rawData[0];
+      if(first&&first['物料描述']&&first['料号']&&first['产品系列']){
+        rawData=data.rawData;
+        if(data.historyData&&Array.isArray(data.historyData))historyData=data.historyData;
+        return true;
+      }
+    }
+  }catch(e){console.warn('加载本地数据失败',e);}
+  return false;
+}
+function handleExcelImport(event){
+  const file=event.target.files[0];
+  if(!file)return;
+  const reader=new FileReader();
+  reader.onload=function(e){
+    try{
+      const data=new Uint8Array(e.target.result);
+      const wb=XLSX.read(data,{type:'array'});
+      const imported=parseExcelWorkbook(wb);
+      const importedHistory=parseHistorySheet(wb);
+      console.log('解析到配件条数:',imported.length,', 履历条数:',importedHistory.length);
+      if(imported.length===0){alert('未解析到有效配件数据，请检查文件格式（F12控制台查看详情）');return;}
+      const msg='确定覆盖当前全部数据？\n配件：'+rawData.length+' → '+imported.length+' 条\n履历：'+historyData.length+' → '+importedHistory.length+' 条';
+      if(!confirm(msg))return;
+      rawData=imported;
+      if(importedHistory.length>0)historyData=importedHistory;
+      setDirty();
+      renderAdminRaw();updateAdminStats();
+      clearCombobox('qProduct');clearCombobox('qType');
+      initQueryDropdowns();renderQueryTable();
+      alert('导入成功！\n配件：'+imported.length+'条\n履历：'+historyData.length+'条\n筛选已重置为全部，请切换到速查页查看。\n👉 点击「📤 导出JSON」下载 common-accessories.json，再手动上传到 GitHub 即可更新线上。');
+    }catch(err){console.error(err);alert('Excel解析失败：'+err.message+'\n请按F12查看控制台错误详情');}
+  };
+  reader.readAsArrayBuffer(file);
+  event.target.value='';
+}
+function normalizeRow(r){
+  const s=v=>String(v==null?'':v).replace(/\u200b/g,'').trim();
+  return {
+    '产品系列':s(r['产品系列']||r['Product Line']||r[0]),
+    '物料类别':s(r['物料类别']||r['Type']||r[1]),
+    '料号':s(r['料号']||r['SAP Number']||r[2]),
+    '物料描述':s(r['物料描述']||r['Material Description']||r[3]),
+    '备注1':s(r['备注1']||r['备注']||r[4]),
+    '备注2':s(r['备注2']||r[5]),
+    '备注3':s(r['备注3']||r[6])
+  };
+}
+function parseExcelWorkbook(wb){
+  const allRows=[];
+  wb.SheetNames.forEach(sheetName=>{
+    try{
+      if(String(sheetName).includes('履历'))return;
+      const ws=wb.Sheets[sheetName];
+      if(!ws)return;
+      const rows=XLSX.utils.sheet_to_json(ws,{header:1,defval:'',raw:false});
+      if(!rows||rows.length<2)return;
+      // 找表头行：含"物料类别"或"料号"
+      let hdrRow=-1;
+      for(let r=0;r<Math.min(rows.length,5);r++){
+        const row=rows[r]||[];
+        const joined=(row.map(c=>String(c==null?'':c).replace(/\u200b/g,'')).join('|'));
+        if(joined.includes('物料类别')||joined.includes('料号')||joined.includes('Type')||joined.includes('SAP')){hdrRow=r;break;}
+      }
+      if(hdrRow<0)hdrRow=0;
+      const head=(rows[hdrRow]||[]).map(c=>String(c==null?'':c).replace(/\u200b/g,'').trim());
+      // 列索引
+      let iPro=-1,iTyp=-1,iSap=-1,iDesc=-1;
+      head.forEach((h,i)=>{
+        if(h.includes('产品线')||h.includes('产品系列'))iPro=i;
+        else if(h.includes('物料类别')||h.includes('Type'))iTyp=i;
+        else if(h.includes('料号')||h.includes('SAP'))iSap=i;
+        else if(h.includes('描述'))iDesc=i;
+      });
+      // 多个"备注"列: 第一个→备注1(适用系列), 第二个→备注2(材质合数), 第三个→备注3(重量)
+      const remarkIdx=[];
+      head.forEach((h,i)=>{if(h.includes('备注')||h.includes('Remark'))remarkIdx.push(i);});
+      const iApp=remarkIdx[0]!==undefined?remarkIdx[0]:-1;
+      const iMat=remarkIdx[1]!==undefined?remarkIdx[1]:-1;
+      const iWgt=remarkIdx[2]!==undefined?remarkIdx[2]:-1;
+      if(iSap<0&&iDesc<0)return;
+      for(let r=hdrRow+1;r<rows.length;r++){
+        const row=rows[r]||[];
+        const sap=String(row[iSap]==null?'':row[iSap]).replace(/\u200b/g,'').trim();
+        const desc=String(row[iDesc]==null?'':row[iDesc]).replace(/\u200b/g,'').trim();
+        if(!sap&&!desc)continue;
+        allRows.push({
+          '产品系列':String(iPro>=0&&row[iPro]!=null?row[iPro]:'').replace(/\u200b/g,'').trim(),
+          '物料类别':String(row[iTyp]==null?'':row[iTyp]).replace(/\u200b/g,'').trim(),
+          '料号':sap,
+          '物料描述':desc,
+          '备注1':String(row[iApp]==null?'':row[iApp]).replace(/\u200b/g,'').trim(),
+          '备注2':String(row[iMat]==null?'':row[iMat]).replace(/\u200b/g,'').trim(),
+          '备注3':String(row[iWgt]==null?'':row[iWgt]).replace(/\u200b/g,'').trim()
+        });
+      }
+    }catch(e){console.error('['+sheetName+'] 解析错误',e);}
+  });
+  return allRows;
+}
+function parseHistorySheet(wb){
+  const history=[];
+  let historySheet=null;
+  for(const name of wb.SheetNames){if(String(name).includes('履历')){historySheet=name;break;}}
+  if(!historySheet)return history;
+  const ws=wb.Sheets[historySheet];
+  const rows=XLSX.utils.sheet_to_json(ws,{header:1,defval:'',raw:false});
+  if(!rows||rows.length<2)return history;
+  for(let i=1;i<rows.length;i++){
+    const row=rows[i];if(!row)continue;
+    const date=String(row[0]||'').trim();
+    const content=String(row[1]||'').trim();
+    const editor=String(row[2]||'').trim();
+    if(!date&&!content)continue;
+    history.push({'日期':date,'内容':content,'编辑人':editor});
+  }
+  return history;
+}
+async function loadDataFromJson(){
+  try{
+    const controller=new AbortController();
+    const timeout=setTimeout(()=>controller.abort(),3000);
+    const resp=await fetch('common-accessories.json',{signal:controller.signal});
+    clearTimeout(timeout);
+    if(!resp.ok)throw new Error('加载失败');
+    const data=await resp.json();
+    if(data.rawData&&data.rawData.length>0){rawData=data.rawData;historyData=data.historyData||[];console.log('已从 common-accessories.json 加载数据：'+rawData.length+' 条');return true;}
+  }catch(e){console.warn('common-accessories.json 加载失败，将使用内嵌默认数据：'+(e&&e.message));}
+  return false;
+}
+function renderHistoryModal(){
+  const body=document.getElementById('historyTableBody');
+  const data=historyData.filter(item=>!(item['日期']==='日  期'||item['内容']==='修   订   内   容'));
+  const count=data.length;
+  document.getElementById('historyModalCount').textContent='共 '+count+' 条';
+  if(count===0){body.innerHTML='<tr><td colspan="3" class="no-result">暂无履历</td></tr>';return;}
+  let lastDate='';
+  body.innerHTML=data.map(h=>{
+    const fullDate=fmtDate(h['日期']);
+    const showDate=fullDate!==lastDate?fullDate:'';
+    lastDate=fullDate||lastDate;
+    return '<tr><td>'+esc(showDate)+'</td><td class="col-content">'+esc(h['内容']||h['修订内容']||'')+'</td><td>'+esc(h['编辑人']||'')+'</td></tr>';
+  }).join('');
+}
+function fmtDate(s){
+  s=String(s==null?'':s).trim();
+  if(!s)return '';
+  const datePart=s.split(' ')[0];
+  const pad2=n=>String(n).padStart(2,'0');
+  let m=datePart.match(/^(\d{4})[-/.](\d{1,2})[-/.](\d{1,2})$/);
+  if(m)return m[1]+'-'+pad2(m[2])+'-'+pad2(m[3]);
+  m=datePart.match(/^(\d{1,2})[-/.](\d{1,2})[-/.](\d{2}|\d{4})$/);
+  if(m){let y=m[3];if(y.length===2)y='20'+y;return y+'-'+pad2(m[1])+'-'+pad2(m[2]);}
+  return s;
+}
+function openHistoryModal(){document.getElementById('historyOverlay').classList.add('active');document.getElementById('historyModal').classList.add('active');document.body.style.overflow='hidden';renderHistoryModal();}
+function closeHistoryModal(){document.getElementById('historyOverlay').classList.remove('active');document.getElementById('historyModal').classList.remove('active');document.body.style.overflow='';}
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape'){
+    if(document.getElementById('historyModal').classList.contains('active'))closeHistoryModal();
+    if(document.getElementById('adminModal').classList.contains('active'))closeAdminModal();
+  }
+});
+function initQueryDropdowns(){
+  initCombobox('qProduct',['全部系列',...unique(rawData.map(d=>d['产品系列']))]);
+  initCombobox('qType',['全部类别',...PART_TYPES]);
+}
+async function initPage(){
+  // 优先从 common-accessories.json 加载(html与json分离)
+  const loaded=await loadDataFromJson();
+  if(!loaded){
+    const hasLocal=autoLoadLocalStorage();
+    if(!hasLocal&&typeof DEFAULT_DATA!=='undefined'&&DEFAULT_DATA.rawData&&DEFAULT_DATA.rawData.length>0){rawData=DEFAULT_DATA.rawData;historyData=DEFAULT_DATA.historyData||[];}
+  }
+  initQueryDropdowns();
+  renderQueryTable();
+  bindGlobalSearch();
+  updateSearchClear();
+}
+initPage();
+</script>
+</body>
+</html>
