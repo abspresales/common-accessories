@@ -598,19 +598,35 @@ function buildExportName(){
   const pre=pC?(pC+'_'):'';
   return '配件数据_'+pre+label+'_'+new Date().toISOString().slice(0,10)+'.xls';
 }
+// 导出列配置：与上传的 Excel 表头内容完全一致（zh 主标题 / en 副标题 / 取数据字段 field）
+// 原始 Excel 单行表头（单元格内中文+英文换行）：产品线 | 物料类别(Type) | 料号(SAP Number) | 物料描述(Material Description) | 备注1(Remark1) | 备注(Remark) | 备注(Remark)
+const EXPORT_COLS=[
+  {zh:'产品线',   en:'',                        field:'产品系列'}, // 原Excel col0 无英文副标题
+  {zh:'物料类别', en:'Type',                    field:'物料类别'},
+  {zh:'料号',     en:'SAP Number',              field:'料号'},
+  {zh:'物料描述', en:'Material Description',    field:'物料描述'},
+  {zh:'备注1',    en:'Remark1',                 field:'备注1'},
+  {zh:'备注',     en:'Remark',                  field:'备注2'},
+  {zh:'备注',     en:'Remark',                  field:'备注3'}
+];
 function exportExcel(){
   const data=getQueryFiltered();
   if(data.length===0){alert('没有可导出的数据');return;}
-  const headers=RAW_FIELDS;
   const FAMILY='font-family:微软雅黑,Microsoft YaHei,Arial,sans-serif;';
   const FONT_TH=FAMILY+'font-size:11pt;';
   const FONT_TD=FAMILY+'font-size:10pt;';
-  const alignOf=h=>(h==='物料描述'||h==='备注1')?'left':'center';
-  const thLabel=h=>h+(REMARK_MEANING[h]?'('+REMARK_MEANING[h]+')':'');
+  // 左对齐列（与原始Excel一致：描述、备注1 靠左）
+  const leftSet=new Set(['物料描述','备注1','备注2','备注3']);
+  const alignOf=f=>leftSet.has(f)?'left':'center';
+  // 表头 = 原始Excel单元格文本（zh 主标题 + 英文副标题，英文为空则不显示）
+  const thText=c=>c.en?c.zh+'<br>'+c.en:c.zh;
   let html='<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">';
   html+='<head><meta charset="UTF-8"><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>配件数据</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body>';
-  html+='<table border="1"><tr>'+headers.map(h=>'<th style="background:#f0f7ff;color:#1e3a5f;font-weight:bold;padding:8px;'+FONT_TH+'text-align:'+(alignOf(h))+';">'+thLabel(h)+'<br>'+(FIELD_EN[h]||'')+'</th>').join('')+'</tr>';
-  data.forEach(row=>{html+='<tr>'+headers.map(h=>'<td style="padding:6px;border:1px solid #ddd;'+FONT_TD+'text-align:'+(alignOf(h))+';">'+String(row[h]||'').replace(/</g,'&lt;').replace(/>/g,'&gt;')+'</td>').join('')+'</tr>';});
+  html+='<table border="1"><tr>'+EXPORT_COLS.map(c=>'<th style="background:#f0f7ff;color:#1e3a5f;font-weight:bold;padding:8px;'+(FONT_TH)+'text-align:'+(alignOf(c.field))+';">'+thText(c)+'</th>').join('')+'</tr>';
+  data.forEach(row=>{html+='<tr>'+EXPORT_COLS.map(c=>{
+    const v=String(row[c.field]||'');
+    return '<td style="padding:6px;border:1px solid #ddd;'+FONT_TD+'text-align:'+(alignOf(c.field))+';">'+v.replace(/</g,'&lt;').replace(/>/g,'&gt;')+'</td>';
+  }).join('')+'</tr>';});
   html+='</table></body></html>';
   const blob=new Blob(['\ufeff'+html],{type:'application/vnd.ms-excel'});
   const url=URL.createObjectURL(blob);
