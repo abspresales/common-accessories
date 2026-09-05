@@ -397,7 +397,7 @@ const PART_TYPES=['航空箱','吊梁','结构配件','地砖屏配件'];
 let rawData=[];
 let historyData=[];
 let currentPage=1;
-const PAGE_SIZE=10;
+const PAGE_SIZE=Number.MAX_SAFE_INTEGER; // 一页显示全部内容（不分页）
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 function unique(arr){return [...new Set(arr.filter(Boolean))];}
 function fieldTh(f,extra){return '<th class="'+((extra||'').trim()||'qth')+'"><span class="th-zh">'+esc(f)+'</span><span class="th-en">'+esc(FIELD_EN[f]||'')+'</span></th>';}
@@ -448,7 +448,7 @@ function renderQueryTable(){
     let cls='';
     if(i===0)cls='col-freeze';
     else if(f==='物料描述')cls='col-desc';
-    else if(f==='备注1')cls='col-applicable';
+    else if(f==='备注1'||f==='备注2'||f==='备注3')cls='col-applicable';
     if(f==='料号')return '<td class="'+cls+'"><span class="sap-copy" onclick="copySap(this)" title="点击复制">'+val+'</span></td>';
     return '<td class="'+cls+'">'+hl+'</td>';
   }).join('')+'</tr>').join('');
@@ -462,6 +462,11 @@ function renderPagination(total,totalPages){
   if(total===0){el.innerHTML='';return;}
   const start=(currentPage-1)*PAGE_SIZE+1;
   const end=Math.min(currentPage*PAGE_SIZE,total);
+  // 一页显示全部：仅展示条数统计，不渲染翻页按钮
+  if(totalPages<=1){
+    el.innerHTML='<div class="page-info">共 '+total+' 条数据（单页完整显示）</div>';
+    return;
+  }
   let pages='';
   const maxShow=7;
   let pStart=Math.max(1,currentPage-3);
