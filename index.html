@@ -440,9 +440,9 @@ const PAGE_SIZE=20; // 每页20条，分页显示
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 function unique(arr){return [...new Set(arr.filter(Boolean))];}
 function fieldTh(f,extra){
-  // 备注1/2 表头标题也左对齐
+  // 物料描述/备注1/备注2 表头标题也左对齐
   let cls=((extra||'').trim()||'qth');
-  if(f==='备注1'||f==='备注2')cls+=' th-left';
+  if(f==='物料描述'||f==='备注1'||f==='备注2')cls+=' th-left';
   return '<th class="'+cls.trim()+'"><span class="th-zh">'+esc(f)+'</span><span class="th-en">'+esc(FIELD_EN[f]||'')+'</span></th>';}
 function getGlobalKeyword(){const el=document.getElementById('qGlobalSearch');return el?el.value.trim():'';}
 function getGlobalKeywords(){const kw=getGlobalKeyword();if(!kw)return [];return kw.split(/[\s,]+/).map(x=>x.trim()).filter(Boolean);}
