@@ -271,12 +271,13 @@ div[onclick="openAdminModal()"]:hover{background:linear-gradient(135deg,#6C7E96,
 #qTable thead th{background:linear-gradient(180deg,#EAF2FC 0%,#DEEBFA 100%)!important;color:#1E3A5F!important;letter-spacing:.5px;font-weight:700;border-bottom:none!important;overflow:hidden;text-overflow:ellipsis;}
 #qTable thead th.col-freeze{background:linear-gradient(180deg,#D8E8F9,#C9DFF6)!important;box-shadow:inset -1px 0 0 rgba(30,58,95,.10);}
 /* 列宽合理分布（table-layout:fixed，6列总和100%）：
-   产品系列12% / 物料类别15% / 料号16% / 物料描述24% / 备注1 19% / 备注2 14% */
-#qTable th:nth-child(1),#qTable td:nth-child(1){width:12%;}
-#qTable th:nth-child(2),#qTable td:nth-child(2){width:15%;white-space:normal;overflow-wrap:break-word;}
-#qTable th:nth-child(3),#qTable td:nth-child(3){width:16%;}
-#qTable th:nth-child(4),#qTable td:nth-child(4){width:24%;}
-#qTable th:nth-child(5),#qTable td:nth-child(5){width:19%;}
+   产品系列9% / 物料类别12% / 料号14% / 物料描述27% / 备注1 24% / 备注2 14%
+   注：产品系列/物料类别/料号按单行显示完整收窄，物料描述/备注1适当加宽 */
+#qTable th:nth-child(1),#qTable td:nth-child(1){width:9%;}
+#qTable th:nth-child(2),#qTable td:nth-child(2){width:12%;white-space:normal;overflow-wrap:break-word;}
+#qTable th:nth-child(3),#qTable td:nth-child(3){width:14%;}
+#qTable th:nth-child(4),#qTable td:nth-child(4){width:27%;}
+#qTable th:nth-child(5),#qTable td:nth-child(5){width:24%;}
 #qTable th:nth-child(6),#qTable td:nth-child(6){width:14%;}
 #qTable td{overflow-wrap:break-word;}
 .th-en{color:#4A5B72!important;letter-spacing:.6px;opacity:1;font-weight:600;}
@@ -308,8 +309,8 @@ div[onclick="openAdminModal()"]:hover{background:linear-gradient(135deg,#6C7E96,
 
 <div style="background:linear-gradient(135deg,#1a3a5c 0%,#2d5f8a 100%);padding:18px 24px;color:#fff;">
     <h1 style="font-size:24px;font-weight:700;margin:0 0 6px 0;">常用配件速查表</h1>
-    <p style="font-size:13px;margin:0 0 4px 0;opacity:0.85;">LED 显示屏常用配件（航空箱 / 吊梁 / 结构配件 / 地砖屏配件）快速查询工具</p>
-    <p style="font-size:13px;margin:0;opacity:0.92;">支持按产品系列 / 物料类别筛选，全局搜索即可快速定位所需配件料号、描述与备注（适用系列 / 材质合数 / 重量）。</p>
+    <p style="font-size:13px;margin:0 0 4px 0;opacity:0.85;">LED 显示屏常用配件（航空箱 / 吊梁 / 结构配件等）快速查询工具</p>
+    <p style="font-size:13px;margin:0;opacity:0.92;">支持按产品系列 / 物料类别筛选，全局搜索即可快速定位所需配件料号、描述与备注。</p>
 </div>
 
 <div id="pageQuery" class="page active">
