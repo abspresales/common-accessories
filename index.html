@@ -432,7 +432,6 @@ const DEFAULT_DATA={rawData:[],historyData:[]};
 const STORAGE_KEY='parts_accessories_data_v1';
 const RAW_FIELDS=['产品系列','物料类别','料号','物料描述','备注1','备注2'];
 const FIELD_EN={'产品系列':'Product Series','物料类别':'Type','料号':'SAP Number','物料描述':'Material Description','备注1':'Remark1','备注2':'Remark2'};
-const PART_TYPES=['航空箱','吊梁','结构配件','地砖屏配件'];
 let rawData=[];
 let historyData=[];
 let currentPage=1;
@@ -519,7 +518,7 @@ function goToPage(p){currentPage=p;renderQueryTable();window.scrollTo({top:docum
 function prevPage(){if(currentPage>1){currentPage--;renderQueryTable();window.scrollTo({top:document.querySelector('.table-wrap').offsetTop-20,behavior:'smooth'});}}
 function nextPage(){const total=getQueryFiltered().length;const tp=Math.max(1,Math.ceil(total/PAGE_SIZE));if(currentPage<tp){currentPage++;renderQueryTable();window.scrollTo({top:document.querySelector('.table-wrap').offsetTop-20,behavior:'smooth'});}}
 function onQueryFilter(){currentPage=1;renderActiveFilters();renderQueryTable();}
-function resetQueryFilter(){clearCombobox('qProduct');clearCombobox('qType');currentPage=1;renderActiveFilters();renderQueryTable();}
+function resetQueryFilter(){clearCombobox('qProduct');clearCombobox('qType');resetTypeDropdownToAll();currentPage=1;renderActiveFilters();renderQueryTable();}
 function renderActiveFilters(){
   const cont=document.getElementById('activeFilters');
   if(!cont)return;
@@ -541,11 +540,11 @@ function renderActiveFilters(){
   });
   if(items.length>1){
     const clear=document.createElement('span');clear.className='af-clear-all';clear.textContent='全部清除';
-    clear.onclick=function(){clearCombobox('qProduct');clearCombobox('qType');clearGlobalSearch(true);currentPage=1;renderActiveFilters();renderQueryTable();};cont.appendChild(clear);
+    clear.onclick=function(){clearCombobox('qProduct');clearCombobox('qType');resetTypeDropdownToAll();clearGlobalSearch(true);currentPage=1;renderActiveFilters();renderQueryTable();};cont.appendChild(clear);
   }
   cont.querySelectorAll('.chip-x').forEach(x=>{
     const key=x.getAttribute('data-key');
-    x.onclick=function(){if(key==='_search'){clearGlobalSearch();return;}clearCombobox(key);currentPage=1;renderActiveFilters();renderQueryTable();};
+    x.onclick=function(){if(key==='_search'){clearGlobalSearch();return;}clearCombobox(key);if(key==='qProduct')resetTypeDropdownToAll();currentPage=1;renderActiveFilters();renderQueryTable();};
   });
 }
 function updateSearchClear(){
@@ -572,16 +571,25 @@ function bindGlobalSearch(){
   });
   input.addEventListener('keydown',(e)=>{if(e.key==='Enter'){e.preventDefault();currentPage=1;renderActiveFilters();renderQueryTable();}});
 }
-function initCombobox(id,options){
+function initCombobox(id,options,onSelect){
   const cb=document.getElementById('cb-'+id);
   if(!cb)return;
   const input=cb.querySelector('.combobox-input');
   const list=cb.querySelector('.combobox-list');
   const def=cb.getAttribute('data-default')||'';
-  if(def&&!options.includes(def)){options=[def,...options];}
+  let opts=(options||[]).slice();
+  if(def&&!opts.includes(def)){opts=[def,...opts];}
+  // 允许外部动态更新下拉选项（级联联动）
+  cb._setOpts=function(newOpts){
+    opts=(newOpts||[]).slice();
+    if(def&&!opts.includes(def)){opts=[def,...opts];}
+    // 若当前选中值不在新选项里，重置为默认
+    if(def&&input.value!==def&&!opts.includes(input.value)){input.value=def;}
+    if(cb.classList.contains('open'))renderList(input.value);
+  };
   function renderList(filter){
     const kw=(filter||'').trim().toLowerCase();
-    const filtered=(kw&&kw!==def.toLowerCase())?options.filter(o=>String(o).toLowerCase().includes(kw)):options;
+    const filtered=(kw&&kw!==def.toLowerCase())?opts.filter(o=>String(o).toLowerCase().includes(kw)):opts;
     if(filtered.length===0){list.innerHTML='<div class="combobox-empty">无匹配选项</div>';return;}
     list.innerHTML=filtered.map(o=>'<div class="combobox-item'+(input.value===o?' selected':'')+'" data-value="'+esc(o)+'">'+esc(o)+'</div>').join('');
   }
@@ -601,7 +609,7 @@ function initCombobox(id,options){
     });
   }
   function close(){cb.classList.remove('open');}
-  function select(value){input.value=value;close();onQueryFilter();}
+  function select(value){input.value=value;close();onQueryFilter();if(onSelect&&typeof onSelect==='function')onSelect(value);}
   input.addEventListener('focus',open);
   input.addEventListener('click',open);
   input.addEventListener('input',()=>{open();renderList(input.value);});
@@ -610,7 +618,7 @@ function initCombobox(id,options){
     let hi=parseInt(list.dataset.hi||'-1');
     if(e.key==='ArrowDown'){e.preventDefault();if(!cb.classList.contains('open')){open();return;}hi=Math.min(hi+1,items.length-1);list.dataset.hi=hi;items.forEach((it,i)=>it.classList.toggle('highlight',i===hi));if(items[hi])items[hi].scrollIntoView({block:'nearest'});}
     else if(e.key==='ArrowUp'){e.preventDefault();hi=Math.max(hi-1,0);list.dataset.hi=hi;items.forEach((it,i)=>it.classList.toggle('highlight',i===hi));if(items[hi])items[hi].scrollIntoView({block:'nearest'});}
-    else if(e.key==='Enter'){e.preventDefault();if(hi>=0&&items[hi])select(items[hi].dataset.value);else if(items.length===1)select(items[0].dataset.value);else close();}
+    else if(e.key==='Enter'){e.preventDefault();if(hi>=0&&items[hi]){select(items[hi].dataset.value);}else if(items.length===1){select(items[0].dataset.value);}else{close();}}
     else if(e.key==='Escape'){close();}
   });
   list.addEventListener('click',(e)=>{const item=e.target.closest('.combobox-item');if(item)select(item.dataset.value);});
@@ -766,7 +774,7 @@ function handleExcelImport(event){
       if(importedHistory.length>0)historyData=importedHistory;
       setDirty();
       renderAdminRaw();updateAdminStats();
-      clearCombobox('qProduct');clearCombobox('qType');
+      clearCombobox('qProduct');clearCombobox('qType');resetTypeDropdownToAll();
       initQueryDropdowns();renderQueryTable();
       alert('导入成功！\n配件：'+imported.length+'条\n履历：'+historyData.length+'条\n筛选已重置为全部，请切换到速查页查看。\n👉 点击「📤 导出JSON」下载 common-accessories.json，再手动上传到 GitHub 即可更新线上。');
     }catch(err){console.error(err);alert('Excel解析失败：'+err.message+'\n请按F12查看控制台错误详情');}
@@ -899,8 +907,31 @@ document.addEventListener('keydown',function(e){
   }
 });
 function initQueryDropdowns(){
-  initCombobox('qProduct',['全部系列',...unique(rawData.map(d=>d['产品系列']))]);
-  initCombobox('qType',['全部类别',...PART_TYPES]);
+  // qType 用数据驱动（从 rawData 统计实际出现的物料类别，而非硬编码）
+  const allTypes=unique(rawData.map(d=>d['物料类别']).filter(Boolean));
+  // 级联：根据当前产品系列，计算对应的物料类别选项
+  function typeOptionsForSeries(series){
+    if(!series||series==='全部系列')return ['全部类别',...allTypes];
+    const types=unique(rawData.filter(d=>(d['产品系列']||'')===series).map(d=>d['物料类别']).filter(Boolean));
+    return ['全部类别',...types];
+  }
+  // qProduct 选中后联动更新 qType 下拉选项
+  initCombobox('qProduct',['全部系列',...unique(rawData.map(d=>d['产品系列']))],function(series){
+    const typeCb=document.getElementById('cb-qType');
+    // 若当前 qType 选的值不在新系列的类别里，重置为默认并清空筛选
+    if(typeCb&&typeCb._setOpts){
+      typeCb._setOpts(typeOptionsForSeries(series));
+    }
+  });
+  initCombobox('qType',typeOptionsForSeries(getComboboxValue('qProduct')));
+}
+// 清除某系列后重置物料类别下拉（供重置/清除时调用）
+function resetTypeDropdownToAll(){
+  const typeCb=document.getElementById('cb-qType');
+  if(typeCb&&typeCb._setOpts){
+    const allTypes=unique(rawData.map(d=>d['物料类别']).filter(Boolean));
+    typeCb._setOpts(['全部类别',...allTypes]);
+  }
 }
 async function initPage(){
   // 优先从 common-accessories.json 加载(html与json分离)
