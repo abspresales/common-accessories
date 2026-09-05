@@ -418,10 +418,8 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
 <script>
 const DEFAULT_DATA={rawData:[],historyData:[]};
 const STORAGE_KEY='parts_accessories_data_v1';
-const RAW_FIELDS=['产品系列','物料类别','料号','物料描述','备注1','备注2','备注3'];
-const FIELD_EN={'产品系列':'Product Line','物料类别':'Type','料号':'SAP Number','物料描述':'Material Description','备注1':'Remark','备注2':'Remark','备注3':'Remark'};
-// 备注1/2/3 对应的业务含义（用于导出说明、高亮列判断）
-const REMARK_MEANING={'备注1':'适用系列','备注2':'材质合数','备注3':'重量'};
+const RAW_FIELDS=['产品系列','物料类别','料号','物料描述','备注1','备注2'];
+const FIELD_EN={'产品系列':'Product Series','物料类别':'Type','料号':'SAP Number','物料描述':'Material Description','备注1':'Remark1','备注2':'Remark2'};
 const PART_TYPES=['航空箱','吊梁','结构配件','地砖屏配件'];
 let rawData=[];
 let historyData=[];
@@ -430,15 +428,15 @@ const PAGE_SIZE=20; // 每页20条，分页显示
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 function unique(arr){return [...new Set(arr.filter(Boolean))];}
 function fieldTh(f,extra){
-  // 备注1/2/3 表头标题也左对齐
+  // 备注1/2 表头标题也左对齐
   let cls=((extra||'').trim()||'qth');
-  if(f==='备注1'||f==='备注2'||f==='备注3')cls+=' th-left';
+  if(f==='备注1'||f==='备注2')cls+=' th-left';
   return '<th class="'+cls.trim()+'"><span class="th-zh">'+esc(f)+'</span><span class="th-en">'+esc(FIELD_EN[f]||'')+'</span></th>';}
 function getGlobalKeyword(){const el=document.getElementById('qGlobalSearch');return el?el.value.trim():'';}
 function getGlobalKeywords(){const kw=getGlobalKeyword();if(!kw)return [];return kw.split(/[\s,]+/).map(x=>x.trim()).filter(Boolean);}
 function rowMatchesKeyword(row,keywords){
   if(!keywords.length)return true;
-  const fields=['产品系列','料号','物料描述','物料类别','备注1','备注2','备注3'];
+  const fields=['产品系列','料号','物料描述','物料类别','备注1','备注2'];
   const text=fields.map(f=>String(row[f]||'')).join(' ').toLowerCase();
   return keywords.every(k=>text.includes(k.toLowerCase()));
 }
@@ -477,11 +475,11 @@ function renderQueryTable(){
   body.innerHTML=pageData.map(row=>'<tr>'+RAW_FIELDS.map((f,i)=>{
     let raw=String(row[f]||'');
     const val=esc(raw);
-    const hl=(keywords.length&&(f==='物料描述'||f==='备注1'||f==='备注2'||f==='备注3'||f==='料号'||f==='物料类别'||f==='产品系列'))?highlightWord(raw,keywords):val;
+    const hl=(keywords.length&&(f==='物料描述'||f==='备注1'||f==='备注2'||f==='料号'||f==='物料类别'||f==='产品系列'))?highlightWord(raw,keywords):val;
     let cls='';
     if(i===0)cls='col-freeze';
     else if(f==='物料描述')cls='col-desc';
-    else if(f==='备注1'||f==='备注2'||f==='备注3')cls='col-applicable';
+    else if(f==='备注1'||f==='备注2')cls='col-applicable';
     if(f==='料号')return '<td class="'+cls+'"><span class="sap-copy" onclick="copySap(this)" title="点击复制">'+val+'</span></td>';
     return '<td class="'+cls+'">'+hl+'</td>';
   }).join('')+'</tr>').join('');
@@ -632,15 +630,14 @@ function buildExportName(){
   return '配件数据_'+pre+label+'_'+new Date().toISOString().slice(0,10)+'.xls';
 }
 // 导出列配置：与上传的 Excel 表头内容完全一致（zh 主标题 / en 副标题 / 取数据字段 field）
-// 原始 Excel 单行表头（单元格内中文+英文换行）：产品线 | 物料类别(Type) | 料号(SAP Number) | 物料描述(Material Description) | 备注1(Remark1) | 备注(Remark) | 备注(Remark)
+// 新上传 Excel 单行表头（单元格内中文+英文换行）：产品系列(Product Series) | 物料类别(Type) | 料号(SAP Number) | 物料描述(Material Description) | 备注1(Remark1) | 备注2(Remark2) —— 已无备注3列
 const EXPORT_COLS=[
-  {zh:'产品线',   en:'',                        field:'产品系列'}, // 原Excel col0 无英文副标题
+  {zh:'产品系列', en:'Product Series',          field:'产品系列'}, // 与原Excel第一列一致
   {zh:'物料类别', en:'Type',                    field:'物料类别'},
   {zh:'料号',     en:'SAP Number',              field:'料号'},
   {zh:'物料描述', en:'Material Description',    field:'物料描述'},
   {zh:'备注1',    en:'Remark1',                 field:'备注1'},
-  {zh:'备注',     en:'Remark',                  field:'备注2'},
-  {zh:'备注',     en:'Remark',                  field:'备注3'}
+  {zh:'备注2',    en:'Remark2',                 field:'备注2'}
 ];
 function exportExcel(){
   const data=getQueryFiltered();
@@ -648,8 +645,8 @@ function exportExcel(){
   const FAMILY='font-family:微软雅黑,Microsoft YaHei,Arial,sans-serif;';
   const FONT_TH=FAMILY+'font-size:11pt;';
   const FONT_TD=FAMILY+'font-size:10pt;';
-  // 左对齐列（与原始Excel一致：描述、备注1 靠左）
-  const leftSet=new Set(['物料描述','备注1','备注2','备注3']);
+  // 左对齐列（与原始Excel一致：描述、备注1/备注2 靠左）
+  const leftSet=new Set(['物料描述','备注1','备注2']);
   const alignOf=f=>leftSet.has(f)?'left':'center';
   // 表头 = 原始Excel单元格文本（zh 主标题 + 英文副标题，英文为空则不显示）
   const thText=c=>c.en?c.zh+'<br>'+c.en:c.zh;
@@ -768,13 +765,12 @@ function handleExcelImport(event){
 function normalizeRow(r){
   const s=v=>String(v==null?'':v).replace(/\u200b/g,'').trim();
   return {
-    '产品系列':s(r['产品系列']||r['Product Line']||r[0]),
+    '产品系列':s(r['产品系列']||r['Product Series']||r[0]),
     '物料类别':s(r['物料类别']||r['Type']||r[1]),
     '料号':s(r['料号']||r['SAP Number']||r[2]),
     '物料描述':s(r['物料描述']||r['Material Description']||r[3]),
-    '备注1':s(r['备注1']||r['备注']||r[4]),
-    '备注2':s(r['备注2']||r[5]),
-    '备注3':s(r['备注3']||r[6])
+    '备注1':s(r['备注1']||r['Remark1']||r[4]),
+    '备注2':s(r['备注2']||r['Remark2']||r[5])
   };
 }
 function parseExcelWorkbook(wb){
@@ -803,12 +799,11 @@ function parseExcelWorkbook(wb){
         else if(h.includes('料号')||h.includes('SAP'))iSap=i;
         else if(h.includes('描述'))iDesc=i;
       });
-      // 多个"备注"列: 第一个→备注1(适用系列), 第二个→备注2(材质合数), 第三个→备注3(重量)
+      // 多个"备注"列: 第一个→备注1(适用系列), 第二个→备注2(材质合数)
       const remarkIdx=[];
       head.forEach((h,i)=>{if(h.includes('备注')||h.includes('Remark'))remarkIdx.push(i);});
       const iApp=remarkIdx[0]!==undefined?remarkIdx[0]:-1;
       const iMat=remarkIdx[1]!==undefined?remarkIdx[1]:-1;
-      const iWgt=remarkIdx[2]!==undefined?remarkIdx[2]:-1;
       if(iSap<0&&iDesc<0)return;
       for(let r=hdrRow+1;r<rows.length;r++){
         const row=rows[r]||[];
@@ -821,8 +816,7 @@ function parseExcelWorkbook(wb){
           '料号':sap,
           '物料描述':desc,
           '备注1':String(row[iApp]==null?'':row[iApp]).replace(/\u200b/g,'').trim(),
-          '备注2':String(row[iMat]==null?'':row[iMat]).replace(/\u200b/g,'').trim(),
-          '备注3':String(row[iWgt]==null?'':row[iWgt]).replace(/\u200b/g,'').trim()
+          '备注2':String(row[iMat]==null?'':row[iMat]).replace(/\u200b/g,'').trim()
         });
       }
     }catch(e){console.error('['+sheetName+'] 解析错误',e);}
