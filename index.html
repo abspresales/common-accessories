@@ -195,8 +195,10 @@ div[onclick="openAdminModal()"]:hover{background:linear-gradient(135deg,#6C7E96,
   table{font-size:12px;}
   th{padding:9px 10px;font-size:12px;}
   td{padding:8px 10px;font-size:12px;}
-  .col-desc{min-width:160px;font-size:12px;line-height:1.5;}
-  .col-applicable{min-width:150px;font-size:12px;line-height:1.45;}
+  /* 移动端表格保持横向滚动，避免列宽被过度挤压 */
+  #qTable{min-width:860px;table-layout:fixed;}
+  .col-desc{font-size:12px;line-height:1.5;}
+  .col-applicable{font-size:12px;line-height:1.45;}
   .search-bar{flex-wrap:nowrap;}
   .search-bar input{min-width:0;font-size:13px;}
   .search-tip{display:none !important;}
@@ -265,9 +267,18 @@ div[onclick="openAdminModal()"]:hover{background:linear-gradient(135deg,#6C7E96,
 .af-clear-all{border-radius:999px;transition:all .18s;color:#C0392B;font-size:12px;cursor:pointer;margin-left:auto;white-space:nowrap;padding:3px 10px;}
 .af-clear-all:hover{background:#FDEBEC;}
 /* ===== 表格：浅蓝表头 + 深色文字 ===== */
-#qTable{border-radius:8px;overflow:hidden;}
-#qTable thead th{background:linear-gradient(180deg,#EAF2FC 0%,#DEEBFA 100%)!important;color:#1E3A5F!important;letter-spacing:.5px;font-weight:700;border-bottom:none!important;}
+#qTable{border-radius:8px;overflow:hidden;table-layout:fixed;width:100%;}
+#qTable thead th{background:linear-gradient(180deg,#EAF2FC 0%,#DEEBFA 100%)!important;color:#1E3A5F!important;letter-spacing:.5px;font-weight:700;border-bottom:none!important;overflow:hidden;text-overflow:ellipsis;}
 #qTable thead th.col-freeze{background:linear-gradient(180deg,#D8E8F9,#C9DFF6)!important;box-shadow:inset -1px 0 0 rgba(30,58,95,.10);}
+/* 列宽合理分布（table-layout:fixed，6列总和100%）：
+   产品系列12% / 物料类别15% / 料号16% / 物料描述24% / 备注1 19% / 备注2 14% */
+#qTable th:nth-child(1),#qTable td:nth-child(1){width:12%;}
+#qTable th:nth-child(2),#qTable td:nth-child(2){width:15%;white-space:normal;overflow-wrap:break-word;}
+#qTable th:nth-child(3),#qTable td:nth-child(3){width:16%;}
+#qTable th:nth-child(4),#qTable td:nth-child(4){width:24%;}
+#qTable th:nth-child(5),#qTable td:nth-child(5){width:19%;}
+#qTable th:nth-child(6),#qTable td:nth-child(6){width:14%;}
+#qTable td{overflow-wrap:break-word;}
 .th-en{color:#4A5B72!important;letter-spacing:.6px;opacity:1;font-weight:600;}
 #qTable td{border-bottom:1px solid #ECF0F6;color:var(--ink);font-weight:500;}
 #qTable tbody tr{transition:background .16s var(--e-sm);}
@@ -287,8 +298,9 @@ div[onclick="openAdminModal()"]:hover{background:linear-gradient(135deg,#6C7E96,
 #qBody tr:nth-child(9){animation-delay:.24s;}
 #qBody tr:nth-child(10){animation-delay:.27s;}
 @keyframes rowIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
-#qTable td.col-desc{color:#24303F;font-size:13px;line-height:1.68;}
-/* 备注1/2/3 表头标题左对齐 */
+#qTable td.col-desc{color:#24303F;font-size:13px;line-height:1.68;min-width:0;white-space:normal;}
+#qTable td.col-applicable{min-width:0;white-space:normal;overflow-wrap:break-word;line-height:1.55;}
+/* 备注1/2 表头标题左对齐 */
 #qTable thead th.th-left{text-align:left!important;}
 #qTable thead th.th-left .th-zh,#qTable thead th.th-left .th-en{text-align:left!important;}
 </style></head>
