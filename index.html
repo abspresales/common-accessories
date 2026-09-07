@@ -561,8 +561,8 @@ function renderPagination(total,totalPages){
 function goToPage(p){currentPage=p;renderQueryTable();window.scrollTo({top:document.querySelector('.table-wrap').offsetTop-20,behavior:'smooth'});}
 function prevPage(){if(currentPage>1){currentPage--;renderQueryTable();window.scrollTo({top:document.querySelector('.table-wrap').offsetTop-20,behavior:'smooth'});}}
 function nextPage(){const total=getQueryFiltered().length;const tp=Math.max(1,Math.ceil(total/PAGE_SIZE));if(currentPage<tp){currentPage++;renderQueryTable();window.scrollTo({top:document.querySelector('.table-wrap').offsetTop-20,behavior:'smooth'});}}
-function onQueryFilter(){currentPage=1;renderActiveFilters();renderQueryTable();}
-function resetQueryFilter(){clearCombobox('qCategory');clearCombobox('qProduct');clearCombobox('qType');resetTypeDropdownToAll();resetProductDropdownToAll();currentPage=1;renderActiveFilters();renderQueryTable();}
+function onQueryFilter(){rebuildAllQueryOptions();currentPage=1;renderActiveFilters();renderQueryTable();}
+function resetQueryFilter(){clearCombobox('qCategory');clearCombobox('qProduct');clearCombobox('qType');rebuildAllQueryOptions();currentPage=1;renderActiveFilters();renderQueryTable();}
 function renderActiveFilters(){
   const cont=document.getElementById('activeFilters');
   if(!cont)return;
@@ -586,11 +586,11 @@ function renderActiveFilters(){
   });
   if(items.length>1){
     const clear=document.createElement('span');clear.className='af-clear-all';clear.textContent='全部清除';
-    clear.onclick=function(){clearCombobox('qCategory');clearCombobox('qProduct');clearCombobox('qType');resetTypeDropdownToAll();resetProductDropdownToAll();clearGlobalSearch(true);currentPage=1;renderActiveFilters();renderQueryTable();};cont.appendChild(clear);
+    clear.onclick=function(){clearCombobox('qCategory');clearCombobox('qProduct');clearCombobox('qType');clearGlobalSearch(true);rebuildAllQueryOptions();currentPage=1;renderActiveFilters();renderQueryTable();};cont.appendChild(clear);
   }
   cont.querySelectorAll('.chip-x').forEach(x=>{
     const key=x.getAttribute('data-key');
-    x.onclick=function(){if(key==='_search'){clearGlobalSearch();return;}clearCombobox(key);if(key==='qCategory'){resetProductDropdownToAll();resetTypeDropdownToAll();}if(key==='qProduct')resetTypeDropdownToAll();currentPage=1;renderActiveFilters();renderQueryTable();};
+    x.onclick=function(){if(key==='_search'){clearGlobalSearch();return;}clearCombobox(key);rebuildAllQueryOptions();currentPage=1;renderActiveFilters();renderQueryTable();};
   });
 }
 function updateSearchClear(){
@@ -631,15 +631,17 @@ function initCombobox(id,options,onSelect){
     if(def&&!opts.includes(def)){opts=[def,...opts];}
     // 若当前选中值不在新选项里，重置为默认
     if(def&&input.value!==def&&!opts.includes(input.value)){input.value=def;}
-    if(cb.classList.contains('open'))renderList(input.value);
+    if(cb.classList.contains('open'))renderList('');
   };
   function renderList(filter){
     const kw=(filter||'').trim().toLowerCase();
-    const filtered=(kw&&kw!==def.toLowerCase())?opts.filter(o=>String(o).toLowerCase().includes(kw)):opts;
+    let filtered=(kw&&kw!==def.toLowerCase())?opts.filter(o=>String(o).toLowerCase().includes(kw)):opts;
+    // 去掉已选值本身：当前下拉已选中的具体值不再作为可选项出现（保留「全部」默认项便于复位）
+    if(input.value&&input.value!==def&&opts.includes(input.value)){filtered=filtered.filter(o=>o!==input.value);}
     if(filtered.length===0){list.innerHTML='<div class="combobox-empty">无匹配选项</div>';return;}
     list.innerHTML=filtered.map(o=>'<div class="combobox-item'+(input.value===o?' selected':'')+'" data-value="'+esc(o)+'">'+esc(o)+'</div>').join('');
   }
-  function open(){if(cb.classList.contains('disabled'))return;closeAllCombobox();cb.classList.add('open');renderList(input.value);list.scrollTop=0;fitListWidth();}
+  function open(){if(cb.classList.contains('disabled'))return;closeAllCombobox();cb.classList.add('open');renderList('');list.scrollTop=0;fitListWidth();}
   function fitListWidth(){
     requestAnimationFrame(function(){
       if(window.innerWidth<=640){list.style.width='100%';list.style.maxWidth='none';list.style.left='0';list.style.right='0';return;}
@@ -855,8 +857,8 @@ function processExcelImport(buf){
       if(importedHistory.length>0)historyData=importedHistory;
       setDirty();
       renderAdminRaw();updateAdminStats();
-      clearCombobox('qProduct');clearCombobox('qType');resetTypeDropdownToAll();
-      initQueryDropdowns();renderQueryTable();
+      clearCombobox('qCategory');clearCombobox('qProduct');clearCombobox('qType');
+      initQueryDropdowns();rebuildAllQueryOptions();renderQueryTable();
       alert('导入成功！\n配件：'+imported.length+'条\n履历：'+historyData.length+'条\n筛选已重置为全部，请切换到速查页查看。\n👉 点击「📤 导出JSON」下载 common-accessories.json，再手动上传到 GitHub 即可更新线上。');
     }catch(err){console.error(err);alert('Excel解析失败：'+err.message+'\n请按F12查看控制台错误详情');}
 }
@@ -988,38 +990,36 @@ document.addEventListener('keydown',function(e){
     if(document.getElementById('adminModal').classList.contains('active'))closeAdminModal();
   }
 });
+// ===== 预估站式「上下文收敛」下拉逻辑 =====
+// 层级前向收敛：上游维度收敛下游，下游不反向收敛上游（最高层恒全量，避免选了下游锁死上游）。
+// 每个下拉可选项 = 在「其上游已筛维度」约束下该字段的真实出现值；恒以「全部XX」带头，选中值失效自动置回全部。
+const PART_QUERY_DEFS={
+  qCategory:{field:'产品类别',def:'全部分类',up:[]},
+  qProduct:{field:'产品系列',def:'全部系列',up:['qCategory']},
+  qType:{field:'物料类别',def:'全部类别',up:['qCategory','qProduct']}
+};
+function partFieldUniqueOptions(fieldId){
+  const cfg=PART_QUERY_DEFS[fieldId];
+  let rows=rawData;
+  (cfg.up||[]).forEach(parent=>{
+    const cur=getComboboxValue(parent);
+    if(cur&&cur!==PART_QUERY_DEFS[parent].def){
+      rows=rows.filter(d=>String(d[PART_QUERY_DEFS[parent].field]||'').trim()===cur.trim());
+    }
+  });
+  return [cfg.def,...unique(rows.map(d=>String(d[cfg.field]||'').trim()).filter(Boolean))];
+}
+function rebuildAllQueryOptions(){
+  Object.keys(PART_QUERY_DEFS).forEach(id=>{
+    const cb=document.getElementById('cb-'+id);
+    if(cb&&cb._setOpts){cb._setOpts(partFieldUniqueOptions(id));}
+  });
+}
 function initQueryDropdowns(){
-  // 数据驱动（从 rawData 统计实际出现的选项，而非硬编码）
-  const allCats=unique(rawData.map(d=>d['产品类别']).filter(Boolean));
-  const allTypes=unique(rawData.map(d=>d['物料类别']).filter(Boolean));
-  // 级联：根据当前产品类别，计算对应的产品系列选项
-  function seriesOptionsForCategory(cat){
-    if(!cat||cat==='全部分类')return ['全部系列',...unique(rawData.map(d=>d['产品系列']).filter(Boolean))];
-    const series=unique(rawData.filter(d=>(d['产品类别']||'')===cat).map(d=>d['产品系列']).filter(Boolean));
-    return ['全部系列',...series];
-  }
-  // 级联：根据当前产品系列，计算对应的物料类别选项
-  function typeOptionsForSeries(series){
-    if(!series||series==='全部系列')return ['全部类别',...allTypes];
-    const types=unique(rawData.filter(d=>(d['产品系列']||'')===series).map(d=>d['物料类别']).filter(Boolean));
-    return ['全部类别',...types];
-  }
-  // qCategory 选中后联动更新 qProduct 下拉选项（并重置 qType 为全量）
-  initCombobox('qCategory',['全部分类',...allCats],function(cat){
-    const prodCb=document.getElementById('cb-qProduct');
-    if(prodCb&&prodCb._setOpts){
-      prodCb._setOpts(seriesOptionsForCategory(cat));
-    }
-    resetTypeDropdownToAll();
-  });
-  // qProduct 选中后联动更新 qType 下拉选项
-  initCombobox('qProduct',['全部系列',...unique(rawData.map(d=>d['产品系列']))],function(series){
-    const typeCb=document.getElementById('cb-qType');
-    if(typeCb&&typeCb._setOpts){
-      typeCb._setOpts(typeOptionsForSeries(series));
-    }
-  });
-  initCombobox('qType',typeOptionsForSeries(getComboboxValue('qProduct')));
+  // 用预估站式上下文收敛初始化：每个下拉候选 = 当前其它已筛维度下的真实值（初始全部为「全部XX」）
+  initCombobox('qCategory',partFieldUniqueOptions('qCategory'));
+  initCombobox('qProduct',partFieldUniqueOptions('qProduct'));
+  initCombobox('qType',partFieldUniqueOptions('qType'));
 }
 // 清除某分类/重置后恢复产品系列下拉为全量（供重置/清除时调用）
 function resetProductDropdownToAll(){
