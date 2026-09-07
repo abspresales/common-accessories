@@ -270,15 +270,16 @@ div[onclick="openAdminModal()"]:hover{background:linear-gradient(135deg,#6C7E96,
 #qTable{border-radius:8px;overflow:hidden;table-layout:fixed;width:100%;}
 #qTable thead th{background:linear-gradient(180deg,#EAF2FC 0%,#DEEBFA 100%)!important;color:#1E3A5F!important;letter-spacing:.5px;font-weight:700;border-bottom:none!important;overflow:hidden;text-overflow:ellipsis;}
 #qTable thead th.col-freeze{background:linear-gradient(180deg,#D8E8F9,#C9DFF6)!important;box-shadow:inset -1px 0 0 rgba(30,58,95,.10);}
-/* 列宽合理分布（table-layout:fixed，6列总和100%）：
-   产品系列9% / 物料类别12% / 料号14% / 物料描述27% / 备注1 24% / 备注2 14%
-   注：产品系列/物料类别/料号按单行显示完整收窄，物料描述/备注1适当加宽 */
-#qTable th:nth-child(1),#qTable td:nth-child(1){width:9%;}
-#qTable th:nth-child(2),#qTable td:nth-child(2){width:12%;white-space:normal;overflow-wrap:break-word;}
-#qTable th:nth-child(3),#qTable td:nth-child(3){width:14%;}
-#qTable th:nth-child(4),#qTable td:nth-child(4){width:27%;}
-#qTable th:nth-child(5),#qTable td:nth-child(5){width:24%;}
-#qTable th:nth-child(6),#qTable td:nth-child(6){width:14%;}
+/* 列宽合理分布（table-layout:fixed，7列总和100%）：
+   产品分类10% / 产品系列8% / 物料类别9% / 料号11% / 物料描述26% / 备注1 24% / 备注2 12%
+   注：产品系列/物料类别/料号按单行显示完整尽量收窄，物料描述/备注1适当加宽 */
+#qTable th:nth-child(1),#qTable td:nth-child(1){width:10%;}
+#qTable th:nth-child(2),#qTable td:nth-child(2){width:8%;white-space:normal;overflow-wrap:break-word;}
+#qTable th:nth-child(3),#qTable td:nth-child(3){width:9%;white-space:normal;overflow-wrap:break-word;}
+#qTable th:nth-child(4),#qTable td:nth-child(4){width:11%;}
+#qTable th:nth-child(5),#qTable td:nth-child(5){width:26%;}
+#qTable th:nth-child(6),#qTable td:nth-child(6){width:24%;}
+#qTable th:nth-child(7),#qTable td:nth-child(7){width:12%;}
 #qTable td{overflow-wrap:break-word;}
 .th-en{color:#4A5B72!important;letter-spacing:.6px;opacity:1;font-weight:600;}
 #qTable td{border-bottom:1px solid #ECF0F6;color:var(--ink);font-weight:500;}
@@ -336,12 +337,11 @@ body>div[style*="linear-gradient"] p:last-of-type{font-size:13px!important;line-
 }
 #qTable thead th .th-zh{font-size:14px!important;font-weight:800!important;color:#1E3A5F!important;}
 #qTable thead th .th-en{font-size:11px!important;font-weight:700!important;color:#6B7B92!important;letter-spacing:.6px!important;margin-top:3px!important;}
-/* 4) 表格正文：字色加深、加行高，数据更清晰易读 */
-#qTable tbody td{font-size:13.5px!important;line-height:1.6!important;color:#2A3038!important;}
+/* 4) 表格正文：字色加深、行高略微收紧，一屏尽量显示完整一页 */
+#qTable tbody td{font-size:13.5px!important;line-height:1.5!important;color:#2A3038!important;padding:7px 8px!important;}
 #qTable tbody tr:hover>td{color:#13506e!important;}
-/* 5) 关键数据列突出：产品型号/规格 用深蓝加粗，一眼抓住重点 */
+/* 5) 关键数据列突出：物料描述 用深蓝加粗，一眼抓住重点（备注列不设特殊色，保持统一深色） */
 #qTable td.col-model{font-weight:700!important;color:#1E3A5F!important;letter-spacing:.2px!important;}
-#qTable tbody td:nth-child(6){font-weight:700!important;color:#B85A18!important;}
 #qTable tbody td:nth-child(5){font-weight:700!important;color:#33415C!important;}
 /* 6) 料号：等宽字体更清晰，字色加强 */
 #qTable td .sap-copy{font-size:13px!important;font-weight:700!important;color:#13506e!important;letter-spacing:.3px!important;}
