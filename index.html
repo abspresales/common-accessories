@@ -142,7 +142,7 @@ tr:hover{background:#f8fafc;}
 .combobox-item.highlight{background:#eff6ff;}
 .combobox-empty{padding:12px 14px;font-size:13px;color:#4b5563;text-align:center;}
 /* ===== 料号复制（对齐方案站订单号样式）===== */
-.sap-copy{font-family:Consolas,Monaco,"Courier New",monospace;cursor:pointer;padding:3px 9px;border-radius:6px;transition:all 0.16s;display:inline-block;font-size:13px;
+.sap-copy{font-family:Consolas,Monaco,"Courier New",monospace;cursor:pointer;padding:3px 12px;border-radius:6px;transition:all 0.16s;display:inline-block;font-size:13px;
   background:#F4F7FB;border:1px dashed #B8C8E0;color:#13506e;font-weight:700;letter-spacing:.3px;}
 .sap-copy:hover{background:#FDF4E3;border-color:#E78131;color:#E78131;}
 .sap-copy:active{transform:scale(.95);}
@@ -275,13 +275,13 @@ div[onclick="openAdminModal()"]:hover{background:linear-gradient(135deg,#6C7E96,
 #qTable thead th{background:linear-gradient(180deg,#EAF2FC 0%,#DEEBFA 100%)!important;color:#1E3A5F!important;letter-spacing:.5px;font-weight:700;border-bottom:none!important;overflow:hidden;text-overflow:ellipsis;}
 #qTable thead th.col-freeze{background:linear-gradient(180deg,#D8E8F9,#C9DFF6)!important;box-shadow:inset -1px 0 0 rgba(30,58,95,.10);}
 /* 列宽合理分布（table-layout:fixed，7列总和100%）：
-   产品类别8% / 产品系列10% / 物料类别8% / 料号10% / 物料描述37% / 备注1 15% / 备注2 12%
+   产品类别8% / 产品系列10% / 物料类别8% / 料号12% / 物料描述35% / 备注1 15% / 备注2 12%
    注：产品系列稍加宽(表头中文/英文各一行完整显示)，物料描述加宽以尽量单行/最多2行，备注1/备注2 收窄并限行 */
 #qTable th:nth-child(1),#qTable td:nth-child(1){width:8%;}
 #qTable th:nth-child(2),#qTable td:nth-child(2){width:10%;white-space:normal;overflow-wrap:break-word;}
 #qTable th:nth-child(3),#qTable td:nth-child(3){width:8%;white-space:normal;overflow-wrap:break-word;}
-#qTable th:nth-child(4),#qTable td:nth-child(4){width:10%;}
-#qTable th:nth-child(5),#qTable td:nth-child(5){width:37%;}
+#qTable th:nth-child(4),#qTable td:nth-child(4){width:12%;}
+#qTable th:nth-child(5),#qTable td:nth-child(5){width:35%;}
 #qTable th:nth-child(6),#qTable td:nth-child(6){width:15%;}
 #qTable th:nth-child(7),#qTable td:nth-child(7){width:12%;}
 #qTable td{overflow-wrap:break-word;}
