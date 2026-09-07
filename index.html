@@ -271,14 +271,14 @@ div[onclick="openAdminModal()"]:hover{background:linear-gradient(135deg,#6C7E96,
 #qTable thead th{background:linear-gradient(180deg,#EAF2FC 0%,#DEEBFA 100%)!important;color:#1E3A5F!important;letter-spacing:.5px;font-weight:700;border-bottom:none!important;overflow:hidden;text-overflow:ellipsis;}
 #qTable thead th.col-freeze{background:linear-gradient(180deg,#D8E8F9,#C9DFF6)!important;box-shadow:inset -1px 0 0 rgba(30,58,95,.10);}
 /* 列宽合理分布（table-layout:fixed，7列总和100%）：
-   产品分类10% / 产品系列8% / 物料类别9% / 料号11% / 物料描述26% / 备注1 24% / 备注2 12%
-   注：产品系列/物料类别/料号按单行显示完整尽量收窄，物料描述/备注1适当加宽 */
-#qTable th:nth-child(1),#qTable td:nth-child(1){width:10%;}
-#qTable th:nth-child(2),#qTable td:nth-child(2){width:8%;white-space:normal;overflow-wrap:break-word;}
-#qTable th:nth-child(3),#qTable td:nth-child(3){width:9%;white-space:normal;overflow-wrap:break-word;}
-#qTable th:nth-child(4),#qTable td:nth-child(4){width:11%;}
-#qTable th:nth-child(5),#qTable td:nth-child(5){width:26%;}
-#qTable th:nth-child(6),#qTable td:nth-child(6){width:24%;}
+   产品分类8% / 产品系列7% / 物料类别8% / 料号10% / 物料描述40% / 备注1 15% / 备注2 12%
+   注：产品系列/物料类别/料号收窄，物料描述加宽以尽量单行/最多2行显示，备注1/备注2 收窄并限行 */
+#qTable th:nth-child(1),#qTable td:nth-child(1){width:8%;}
+#qTable th:nth-child(2),#qTable td:nth-child(2){width:7%;white-space:normal;overflow-wrap:break-word;}
+#qTable th:nth-child(3),#qTable td:nth-child(3){width:8%;white-space:normal;overflow-wrap:break-word;}
+#qTable th:nth-child(4),#qTable td:nth-child(4){width:10%;}
+#qTable th:nth-child(5),#qTable td:nth-child(5){width:40%;}
+#qTable th:nth-child(6),#qTable td:nth-child(6){width:15%;}
 #qTable th:nth-child(7),#qTable td:nth-child(7){width:12%;}
 #qTable td{overflow-wrap:break-word;}
 .th-en{color:#4A5B72!important;letter-spacing:.6px;opacity:1;font-weight:600;}
@@ -302,6 +302,8 @@ div[onclick="openAdminModal()"]:hover{background:linear-gradient(135deg,#6C7E96,
 @keyframes rowIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
 #qTable td.col-desc{color:#24303F;font-size:13px;line-height:1.68;min-width:0;white-space:normal;}
 #qTable td.col-applicable{min-width:0;white-space:normal;overflow-wrap:break-word;line-height:1.55;}
+/* 长文本(物料描述/备注1/备注2)最多2行，超出省略号；悬停显示完整内容(title) */
+#qTable td .clamp2{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;line-clamp:2;overflow:hidden;word-break:break-word;}
 /* 备注1/2 表头标题左对齐 */
 #qTable thead th.th-left{text-align:left!important;}
 #qTable thead th.th-left .th-zh,#qTable thead th.th-left .th-en{text-align:left!important;}
@@ -555,6 +557,8 @@ function renderQueryTable(){
     else if(f==='物料描述')cls='col-desc';
     else if(f==='备注1'||f==='备注2')cls='col-applicable';
     if(f==='料号')return '<td class="'+cls+'"><span class="sap-copy" onclick="copySap(this)" title="点击复制">'+val+'</span></td>';
+    // 物料描述/备注1/备注2 长文本：包裹 clamp2 容器，最多显示2行超出省略
+    if(f==='物料描述'||f==='备注1'||f==='备注2')return '<td class="'+cls+'"><div class="clamp2" title="'+val+'">'+hl+'</div></td>';
     return '<td class="'+cls+'">'+hl+'</td>';
   }).join('')+'</tr>').join('');
   renderPagination(data.length,totalPages);
