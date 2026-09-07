@@ -85,6 +85,28 @@ tr:hover{background:#f8fafc;}
 .admin-header{background:#fff;padding:18px 24px;border-radius:10px;margin-bottom:16px;box-shadow:0 1px 3px rgba(0,0,0,0.08);display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
 .admin-stats{font-size:13px;color:#555;}
 .admin-stats span{color:#1a73e8;font-weight:600;margin:0 4px;}
+/* 后台明细编辑/删除按钮 */
+.col-op{text-align:center;white-space:nowrap;min-width:150px;}
+.admin-edit-btn{background:linear-gradient(135deg,#3B82F6,#2563EB);color:#fff;border:none;padding:6px 12px;border-radius:8px;cursor:pointer;font-size:12px;font-weight:600;transition:all .18s;box-shadow:0 2px 6px rgba(37,99,235,.25);margin-right:4px;}
+.admin-edit-btn:hover{background:linear-gradient(135deg,#60A5FA,#3B82F6);transform:translateY(-1px);box-shadow:0 4px 10px rgba(37,99,235,.35);}
+.admin-edit-btn:active{transform:scale(.95);}
+.admin-del-btn{background:linear-gradient(135deg,#E5484D,#C72A2F);color:#fff;border:none;padding:6px 12px;border-radius:8px;cursor:pointer;font-size:12px;font-weight:600;transition:all .18s;box-shadow:0 2px 6px rgba(199,42,47,.25);}
+.admin-del-btn:hover{background:linear-gradient(135deg,#F05257,#D93A3F);transform:translateY(-1px);box-shadow:0 4px 10px rgba(199,42,47,.35);}
+.admin-del-btn:active{transform:scale(.95);}
+/* 编辑弹窗表单 */
+.edit-modal{width:min(680px,94vw);height:auto;max-height:86vh;background:#fff!important;padding:0;}
+.edit-modal .admin-modal-header{border-bottom:3px solid #E1E8F1;}
+.edit-body{padding:18px 22px;overflow-y:auto;max-height:calc(86vh - 130px);}
+.edit-field{margin-bottom:14px;}
+.edit-field label{display:block;font-size:12.5px;font-weight:700;color:#1E3A5F;margin-bottom:6px;letter-spacing:.3px;}
+.edit-field input[type=text],.edit-field textarea{width:100%;box-sizing:border-box;padding:8px 11px;border:1px solid #D7E0EC;border-radius:8px;font-size:13px;color:#24303F;transition:border-color .2s,box-shadow .2s;font-family:inherit;}
+.edit-field input[type=text]:focus,.edit-field textarea:focus{border-color:var(--orange-500);box-shadow:var(--ring);outline:none;}
+.edit-field textarea{resize:vertical;line-height:1.6;}
+.edit-actions{display:flex;justify-content:flex-end;gap:10px;padding:14px 22px;border-top:1px solid #ECF0F6;background:#F5F8FC;}
+.edit-actions .btn-save{background:linear-gradient(135deg,#27AE60,#1E8E4E);color:#fff;border:none;padding:9px 22px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;box-shadow:0 4px 12px rgba(30,142,78,.3);}
+.edit-actions .btn-save:hover{background:linear-gradient(135deg,#2ECC71,#27AE60);}
+.edit-actions .btn-cancel{background:#EAF1F8;color:#1E3A5F;border:1px solid #C9D8EA;padding:9px 22px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;}
+.edit-actions .btn-cancel:hover{background:var(--orange-500);color:#fff;border-color:var(--orange-500);}
 .dirty-indicator{color:#dc3545;font-weight:600;font-size:13px;}
 .clean-indicator{color:#28a745;font-weight:600;font-size:13px;}
 .login-wrap{max-width:400px;margin:60px auto;background:#fff;padding:40px;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.1);text-align:center;}
@@ -449,6 +471,22 @@ mark.qmark{font-weight:800!important;}
   </div>
 </div>
 
+<!-- 编辑明细浮窗 -->
+<div class="admin-modal-overlay" id="editOverlay" onclick="closeEditModal()"></div>
+<div class="admin-modal edit-modal" id="editModal" role="dialog" aria-modal="true">
+  <div class="admin-modal-header">
+    <span id="editTitle" style="font-size:13px;font-weight:700;color:#1E3A5F;">✎ 编辑明细</span>
+    <div class="admin-header-btns">
+      <button class="admin-modal-close" onclick="closeEditModal()" aria-label="关闭">✕</button>
+    </div>
+  </div>
+  <div class="edit-body" id="editFields"></div>
+  <div class="edit-actions">
+    <button class="btn-cancel" onclick="closeEditModal()">取消</button>
+    <button class="btn-save" onclick="saveEditRow()">💾 保存修改</button>
+  </div>
+</div>
+
 <!-- 更新履历浮窗 -->
 <div class="modal-overlay" id="historyOverlay" onclick="closeHistoryModal()"></div>
 <div class="history-modal" id="historyModal" role="dialog" aria-modal="true">
@@ -760,14 +798,71 @@ function adminLogin(){
 }
 function adminLogout(){document.getElementById('adminContent').style.display='none';document.getElementById('adminLogin').style.display='block';document.getElementById('adminPwd').value='';}
 function renderAdminRaw(){
-  document.getElementById('aRawHead').innerHTML=RAW_FIELDS.map(f=>fieldTh(f)).join('');
+  document.getElementById('aRawHead').innerHTML=RAW_FIELDS.map(f=>fieldTh(f)).join('')+'<th class="col-op">操作</th>';
   const body=document.getElementById('aRawBody');
-  if(rawData.length===0){body.innerHTML='<tr><td colspan="'+RAW_FIELDS.length+'" class="no-result">暂无数据，请导入Excel</td></tr>';return;}
-  body.innerHTML=rawData.map(row=>'<tr>'+RAW_FIELDS.map(f=>{
+  if(rawData.length===0){body.innerHTML='<tr><td colspan="'+(RAW_FIELDS.length+1)+'" class="no-result">暂无数据，请导入Excel</td></tr>';return;}
+  body.innerHTML=rawData.map((row,idx)=>'<tr>'+RAW_FIELDS.map(f=>{
     const val=esc(row[f]||'');
     if(f==='物料描述'||f==='备注1')return '<td class="col-desc">'+val+'</td>';
     return '<td>'+val+'</td>';
-  }).join('')+'</tr>').join('');
+  }).join('')+'<td class="col-op"><button class="admin-edit-btn" onclick="openEditRow('+idx+')">✎ 编辑</button><button class="admin-del-btn" onclick="deleteAdminRow('+idx+')">🗑 删除</button></td></tr>').join('');
+}
+function deleteAdminRow(idx){
+  if(idx<0||idx>=rawData.length)return;
+  const row=rawData[idx];
+  const brief=(row['料号']||row['产品系列']||row['物料描述']||'');
+  if(!confirm('确定删除这条明细吗？\n\n'+brief+'\n\n删除后不可恢复，需点「保存到浏览器」并导出JSON上传线上才生效。'))return;
+  try{
+    const removed=rawData.splice(idx,1)[0];
+    const dt=new Date();
+    const p=n=>String(n).padStart(2,'0');
+    const today=dt.getFullYear()+'-'+p(dt.getMonth()+1)+'-'+p(dt.getDate());
+    historyData.push({'日期':today,'修订内容':'删除明细：'+(removed['料号']||removed['物料描述']||removed['产品系列']||''),'编辑人':'后台管理员'});
+    setDirty();
+    renderAdminRaw();
+    updateAdminStats();
+    alert('已删除 1 条明细。\n\n请点击「💾 保存到浏览器」保存，再「📤 导出JSON」上传 GitHub 线上才会同步。');
+  }catch(e){alert('删除失败：'+e.message);}
+}
+let editIdx=-1;
+function openEditRow(idx){
+  if(idx<0||idx>=rawData.length)return;
+  editIdx=idx;
+  const row=rawData[idx];
+  const fields=document.getElementById('editFields');
+  fields.innerHTML=RAW_FIELDS.map(f=>{
+    const val=esc(row[f]!=null?row[f]:'');
+    if(f==='物料描述'||f==='备注1'||f==='备注2')return '<div class="edit-field"><label>'+esc(f)+'</label><textarea data-f="'+esc(f)+'" rows="3">'+val+'</textarea></div>';
+    return '<div class="edit-field"><label>'+esc(f)+'</label><input type="text" data-f="'+esc(f)+'" value="'+val+'"></div>';
+  }).join('');
+  document.getElementById('editTitle').textContent='✎ 编辑明细（第 '+(idx+1)+' 条）';
+  document.getElementById('editOverlay').classList.add('active');
+  document.getElementById('editModal').classList.add('active');
+  document.body.style.overflow='hidden';
+}
+function closeEditModal(){
+  document.getElementById('editOverlay').classList.remove('active');
+  document.getElementById('editModal').classList.remove('active');
+  document.body.style.overflow='';
+}
+function saveEditRow(){
+  if(editIdx<0||editIdx>=rawData.length)return;
+  try{
+    const row=rawData[editIdx];
+    document.querySelectorAll('#editFields [data-f]').forEach(el=>{
+      const f=el.getAttribute('data-f');
+      row[f]=el.value.trim();
+    });
+    const dt=new Date();
+    const p=n=>String(n).padStart(2,'0');
+    const today=dt.getFullYear()+'-'+p(dt.getMonth()+1)+'-'+p(dt.getDate());
+    historyData.push({'日期':today,'修订内容':'编辑明细：'+(row['料号']||row['物料描述']||row['产品系列']||'（第'+(editIdx+1)+'条）'),'编辑人':'后台管理员'});
+    setDirty();
+    renderAdminRaw();
+    updateAdminStats();
+    closeEditModal();
+    alert('已保存修改。\n\n请点击「💾 保存到浏览器」保存，再「📤 导出JSON」上传 GitHub 线上才会同步。');
+  }catch(e){alert('保存失败：'+e.message);}
 }
 function updateAdminStats(){
   document.getElementById('statRaw').textContent=rawData.length;
