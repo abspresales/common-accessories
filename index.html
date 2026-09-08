@@ -487,6 +487,10 @@ html[data-theme="dark"] .admin-stats{color:#8fa0b3!important;}
 html[data-theme="dark"] .admin-scroll-bar{background:#1c2430!important;border-top-color:#2b3646!important;}
 html[data-theme="dark"] .admin-scroll-bar button{background:#2b3646!important;border-color:#34404f!important;color:#c9d3df!important;}
 html[data-theme="dark"] .admin-scroll-bar span{color:#8fa0b3!important;}
+/* ===== 下拉框/输入控件字体统一（对齐全局中文字体栈，避免控件默认 Arial） ===== */
+.combobox-input,.combobox-item,input,select,textarea,.search-bar input,.searchable-select{
+  font-family:"PingFang SC","HarmonyOS Sans SC","MiSans","Source Han Sans SC","Microsoft YaHei","微软雅黑",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
+}
 </style>
 <!-- xlsx 解析库：按需动态加载（见 ensureXlsxLoaded），仅维护者导入Excel时才加载，访问者不下载，提速首屏 -->
 </head>
