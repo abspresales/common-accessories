@@ -478,6 +478,15 @@ html[data-theme="dark"] #qTable thead th{background:#202a38!important;color:#bcd
 html[data-theme="dark"] #qTable thead th.col-freeze{background:#26313f!important;border-bottom-color:#2b3646!important;}
 html[data-theme="dark"] #qTable tbody td{color:#c9d3df!important;border-bottom-color:#25303d!important;}
 html[data-theme="dark"] td,html[data-theme="dark"] th{border-bottom-color:#25303d!important;}
+/* ===== 后台维护弹窗 深色（标题/登录标题/统计/底部滚动条 对齐线材站基准） ===== */
+html[data-theme="dark"] .admin-modal-header>span{color:#e8edf3!important;}
+html[data-theme="dark"] .login-wrap h3{color:#e8edf3!important;}
+html[data-theme="dark"] .login-wrap{background:#1c2430!important;border-color:#2b3646!important;border-top-color:#2b3646!important;}
+html[data-theme="dark"] .login-wrap input{background:#141a22!important;border-color:#34404f!important;color:#e2e9f2!important;}
+html[data-theme="dark"] .admin-stats{color:#8fa0b3!important;}
+html[data-theme="dark"] .admin-scroll-bar{background:#1c2430!important;border-top-color:#2b3646!important;}
+html[data-theme="dark"] .admin-scroll-bar button{background:#2b3646!important;border-color:#34404f!important;color:#c9d3df!important;}
+html[data-theme="dark"] .admin-scroll-bar span{color:#8fa0b3!important;}
 </style>
 <!-- xlsx 解析库：按需动态加载（见 ensureXlsxLoaded），仅维护者导入Excel时才加载，访问者不下载，提速首屏 -->
 </head>
@@ -561,7 +570,7 @@ html[data-theme="dark"] td,html[data-theme="dark"] th{border-bottom-color:#25303
             </table>
         </div>
         <div class="pagination" id="adminPagination" style="margin-top:10px;"></div>
-        <div style="position:sticky;bottom:0;display:flex;align-items:center;justify-content:center;gap:16px;padding:10px 20px;background:#fff;border-top:1px solid #e5e7eb;z-index:10;">
+        <div class="admin-scroll-bar" style="position:sticky;bottom:0;display:flex;align-items:center;justify-content:center;gap:16px;padding:10px 20px;background:#fff;border-top:1px solid #e5e7eb;z-index:10;">
             <button onclick="scrollAdminTable(-200)" style="width:36px;height:36px;border-radius:6px;border:1px solid #d1d5db;background:#fff;color:#6b7280;cursor:pointer;font-size:16px;font-weight:700;display:flex;align-items:center;justify-content:center;">‹</button>
             <span style="font-size:13px;color:#4b5563;">左右滑动查看更多列</span>
             <button onclick="scrollAdminTable(200)" style="width:36px;height:36px;border-radius:6px;border:1px solid #d1d5db;background:#fff;color:#6b7280;cursor:pointer;font-size:16px;font-weight:700;display:flex;align-items:center;justify-content:center;">›</button>
